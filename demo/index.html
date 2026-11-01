@@ -1,1 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
+        .font-serif-exec { font-family: 'Playfair Display', serif; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body id="body-root" class="min-h-screen transition-colors duration-300">
 
+    <!-- Top Floating Action Bar -->
+    <header class="sticky top-0 z-50 backdrop-blur-md border-b transition-colors duration-300 no-print" id="navbar">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="nav-status" class="text-xs font-medium tracking-wide uppercase">Available for Opportunities</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="shareProfile()" class="p-2 rounded-lg border text-xs font-medium flex items-center gap-1.5 transition" id="share-btn" title="Share Portfolio">
+                    <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+                    <span class="hidden sm:inline">Share</span>
+                </button>
+                <a id="nav-resume-btn" href="#" target="_blank" onclick="handleResumeDownload(event)" class="px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                    <span>Download CV</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-12">
+
+        <!-- HERO SECTION -->
+        <section id="hero-card" class="rounded-3xl p-6 sm:p-10 border transition-all relative overflow-hidden">
+            <div id="hero-glow" class=" -top-24 -right-24 w-64 h-64 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+            
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 relative z-10">
+                <!-- Avatar -->
+                <div id="avatar-box" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl font-bold shrink-0 overflow-hidden shadow-lg border-2">
+                    <span id="avatar-initials">AS</span>
+                    <img id="avatar-img" src="" alt="Profile" class="w-full h-full object-cover hidden">
+                </div>
+
+                <!-- Intro Text -->
+                <div class="flex-1 space-y-2">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="role-badge" class="px-3 py-1 rounded-full text-xs font-semibold tracking-wide"></span>
+                        <span id="location-badge" class="text-xs flex items-center gap-1 opacity-75">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+                            <span id="client-location"></span>
+                        </span>
+                    </div>
+                    <h1 id="client-name" class="text-3xl sm:text-4xl font-extrabold tracking-tight"></h1>
+                    <p id="client-bio" class="text-sm sm:text-base leading-relaxed opacity-85 max-w-2xl"></p>
+                </div>
+            </div>
+
+            <!-- Quick Contact CTAs -->
+            <div class="mt-8 pt-6 border-t flex flex-wrap items-center gap-3 relative z-10" id="hero-divider">
+                <a id="whatsapp-btn" href="#" target="_blank" class="px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 transition">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span>Chat on WhatsApp</span>
+                </a>
+                <a id="email-btn" href="#" class="px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 border transition">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                    <span>Send Email</span>
+                </a>
+                <a id="phone-btn" href="#" class="p-2.5 rounded-xl border transition" title="Call Directly">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                </a>
+                <div id="social-links" class="flex items-center gap-2 ml-auto"></div>
+            </div>
+
+            <!-- Key Highlights / Stats Row -->
+            <div id="stats-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-6"></div>
+        </section>
+
+        <!-- SKILLS & TOOLS SECTION -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-bold tracking-tight flex items-center gap-2" id="skills-heading">
+                <i data-lucide="zap" class="w-5 h-5" id="skills-icon"></i>
+                <span>Core Skills & Expertise</span>
+            </h2>
+            <div id="skills-container" class="flex flex-wrap gap-2"></div>
+        </section>
+
+        <!-- WORK EXPERIENCE SECTION -->
+        <section id="experience-section" class="space-y-5">
+            <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
+                <i data-lucide="briefcase" class="w-5 h-5" id="exp-icon"></i>
+                <span>Work Experience</span>
+            </h2>
+            <div id="experience-list" class="space-y-4"></div>
+        </section>
+
+        <!-- FEATURED PROJECTS / WORK SECTION -->
+        <section id="projects-section" class="space-y-5">
+            <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
+                <i data-lucide="layers" class="w-5 h-5" id="proj-icon"></i>
+                <span>Featured Projects & Achievements</span>
+            </h2>
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
+
+        <!-- EDUCATION & CERTIFICATIONS -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+                <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
+                    <i data-lucide="graduation-cap" class="w-5 h-5" id="edu-icon"></i>
+                    <span>Education</span>
+                </h2>
+                <div id="education-list" class="space-y-3"></div>
+            </div>
+
+            <div id="cert-section" class="space-y-4">
+                <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
+                    <i data-lucide="award" class="w-5 h-5" id="cert-icon"></i>
+                    <span>Certifications & Awards</span>
+                </h2>
+                <div id="cert-list" class="space-y-3"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Built-In Viral Referral Footer (Brings you free leads!) -->
+    <footer class="border-t py-8 mt-16 text-center text-xs no-print" id="footer-bar">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="opacity-70">© <span id="year"></span> <span id="footer-name"></span>. All rights reserved.</p>
+            <a href="https://folio299.vercel.app" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border font-medium transition hover:scale-105" id="viral-badge">
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                <span>Want a live CV website like this for ₹299? <strong>Get Folio299 →</strong></span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- ================================================================= -->
+    <!-- 👇 ONLY EDIT THIS CLIENT_DATA BLOCK FOR EACH NEW CUSTOMER 👇      -->
+    <!-- ================================================================= -->
+    <script>
+        const CLIENT_DATA = {
+            // 1. Choose Theme: "executive" | "creator" | "tech"
+            theme: "executive", 
+
+            // 2. Basic Info
+            name: "Aarav Sharma",
+            initials: "AS",
+            photoUrl: "", // Leave empty "" for initials, or paste image link
+            role: "Growth & Brand Marketing Manager",
+            location: "Delhi NCR, India",
+            status: "Open to Full-Time & Consulting",
+            bio: "MBA Marketing postgraduate with 4+ years of experience scaling D2C brands, executing high-ROI performance campaigns, and leading cross-functional growth teams.",
+
+            // 3. Contact & Social Links
+            whatsapp: "919876543210", // With country code, no +
+            phone: "+919876543210",
+            email: "aarav.sharma@email.com",
+            resumePdfUrl: "", // Put link to PDF if hosted, or leave "" to trigger browser print-to-PDF
+            socials: {
+                linkedin: "https://linkedin.com",
+                github: "",
+                instagram: "https://instagram.com",
+                portfolio: ""
+            },
+
+            // 4. Quick Highlight Metrics (2 or 3 items)
+            stats: [
+                { value: "4+ Years", label: "Marketing Experience" },
+                { value: "3.4x ROAS", label: "Avg. Campaign Return" },
+                { value: "₹2.5 Cr+", label: "Ad Spend Managed" }
+            ],
+
+            // 5. Skills List
+            skills: [
+                "Brand Strategy", "Meta & Google Ads", "Go-To-Market (GTM)", 
+                "Google Analytics 4", "CRM & Retention", "B2B Lead Generation", 
+                "Team Leadership", "Copywriting & Funnels"
+            ],
+
+            // 6. Work Experience
+            experience: [
+                {
+                    role: "Senior Growth Marketing Associate",
+                    company: "Elevate D2C Brands Pvt. Ltd.",
+                    duration: "Jul 2024 – Present",
+                    location: "Gurugram",
+                    points: [
+                        "Scaled monthly customer acquisition by 65% in 6 months using full-funnel Meta and Google Ads.",
+                        "Reduced Customer Acquisition Cost (CAC) by 28% through landing page A/B testing and WhatsApp automation.",
+                        "Managed a 4-member creative and content team for product launches."
+                    ]
+                },
+                {
+                    role: "Marketing Executive",
+                    company: "NextGen Media Solutions",
+                    duration: "Jun 2022 – Jun 2024",
+                    location: "Noida",
+                    points: [
+                        "Executed digital campaigns for 12+ commercial clients across retail and EV mobility sectors.",
+                        "Built automated lead-nurturing journeys that improved sales call conversion by 22%."
+                    ]
+                }
+            ],
+
+            // 7. Key Projects / Case Studies
+            projects: [
+                {
+                    title: "Festive D2C Scale-Up Campaign",
+                    tag: "Performance Marketing • 2025",
+                    description: "Led a 45-day Diwali festive campaign generating ₹85L in revenue at 4.1x blended ROAS.",
+                    link: ""
+                },
+                {
+                    title: "Hyperlocal Retail Launch Playbook",
+                    tag: "Brand Activation • 2024",
+                    description: "Designed local influencer + WhatsApp click-and-collect funnel driving 1,200+ store walk-ins.",
+                    link: ""
+                }
+            ],
+
+            // 8. Education
+            education: [
+                {
+                    degree: "MBA in Marketing & Strategy",
+                    institute: "Delhi School of Management",
+                    year: "2020 – 2022",
+                    score: "8.4 CGPA"
+                },
+                {
+                    degree: "Bachelor of Business Administration (BBA)",
+                    institute: "Patna University",
+                    year: "2017 – 2020",
+                    score: "First Division"
+                }
+            ],
+
+            // 9. Certifications & Achievements
+            certifications: [
+                "Google Ads Search & Performance Max Certified",
+                "Meta Certified Media Buying Professional",
+                "Winner – National Case Study Competition (2022)"
+            ]
+        };
+    </script>
+
+    <!-- ================================================================= -->
+    <!-- ⚙️ AUTOMATIC THEME & RENDERING ENGINE (DO NOT NEED TO TOUCH)      -->
+    <!-- ================================================================= -->
+    <script>
+        const THEMES = {
+            executive: {
+                body: "bg-slate-950 text-slate-100",
+                nav: "bg-slate-950/80 border-slate-800/80",
+                card: "bg-slate-900/90 border-slate-800 shadow-2xl",
+                subCard: "bg-slate-900/60 border-slate-800/80 hover:border-indigo-500/40",
+                accentText: "text-indigo-400",
+                badge: "bg-indigo-500/10 text-indigo-300 border border-indigo-500/30",
+                avatar: "bg-gradient-to-br from-indigo-600 to-blue-700 text-white border-indigo-400/30",
+                pill: "bg-slate-900 border border-slate-800 text-slate-200 hover:border-indigo-500/50",
+                btnPrimary: "bg-indigo-600 hover:bg-indigo-500 text-white",
+                btnOutline: "border-slate-700 hover:bg-slate-800 text-slate-200",
+                glow: "bg-indigo-500",
+                divider: "border-slate-800",
+                headingFont: ""
+            },
+            creator: {
+                body: "bg-zinc-950 text-zinc-100",
+                nav: "bg-zinc-950/80 border-zinc-800/80",
+                card: "bg-gradient-to-br from-zinc-900 via-zinc-900 to-rose-950/30 border-zinc-800 shadow-2xl",
+                subCard: "bg-zinc-900/70 border-zinc-800/90 hover:border-rose-500/40",
+                accentText: "text-rose-400",
+                badge: "bg-rose-500/10 text-rose-300 border border-rose-500/30",
+                avatar: "bg-gradient-to-br from-rose-500 via-fuchsia-600 to-orange-500 text-white border-rose-400/40",
+                pill: "bg-zinc-900 border border-zinc-800 text-zinc-200 hover:border-rose-500/50",
+                btnPrimary: "bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-95 text-white",
+                btnOutline: "border-zinc-700 hover:bg-zinc-800 text-zinc-200",
+                glow: "bg-rose-500",
+                divider: "border-zinc-800",
+                headingFont: ""
+            },
+            tech: {
+                body: "bg-[#060b11] text-slate-100",
+                nav: "bg-[#060b11]/85 border-emerald-950",
+                card: "bg-[#0b131e] border-emerald-500/20 shadow-2xl",
+                subCard: "bg-[#0b131e]/80 border-slate-800 hover:border-emerald-500/40",
+                accentText: "text-emerald-400 font-mono-tech",
+                badge: "bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 font-mono-tech",
+                avatar: "bg-gradient-to-br from-emerald-600 to-teal-800 text-white border-emerald-400/40 font-mono-tech",
+                pill: "bg-[#0b131e] border border-emerald-950/90 text-emerald-200 font-mono-tech text-xs",
+                btnPrimary: "bg-emerald-600 hover:bg-emerald-500 text-white font-mono-tech",
+                btnOutline: "border-slate-800 hover:bg-slate-900 text-slate-200",
+                glow: "bg-emerald-500",
+                divider: "border-slate-800/80",
+                headingFont: "font-mono-tech"
+            }
+        };
+
+        function renderPortfolio() {
+            const d = CLIENT_DATA;
+            const t = THEMES[d.theme] || THEMES.executive;
+
+            // Title & Theme Classes
+            document.title = `${d.name} — ${d.role}`;
+            document.getElementById('body-root').className = `min-h-screen transition-colors duration-300 ${t.body}`;
+            document.getElementById('navbar').className = `sticky top-0 z-50 backdrop-blur-md border-b no-print ${t.nav}`;
+            document.getElementById('hero-card').className = `rounded-3xl p-6 sm:p-10 border relative overflow-hidden ${t.card}`;
+            document.getElementById('hero-glow').className = `absolute -top-24 -right-24 w-64 h-64 rounded-full blur-3xl opacity-20 pointer-events-none ${t.glow}`;
+            document.getElementById('hero-divider').className = `mt-8 pt-6 border-t flex flex-wrap items-center gap-3 relative z-10 ${t.divider}`;
+            document.getElementById('footer-bar').className = `border-t py-8 mt-16 text-center text-xs no-print ${t.divider}`;
+
+            // Top Nav & Buttons
+            document.getElementById('nav-status').textContent = d.status;
+            document.getElementById('share-btn').className = `p-2 rounded-lg border text-xs font-medium flex items-center gap-1.5 transition ${t.btnOutline}`;
+            const resumeBtn = document.getElementById('nav-resume-btn');
+            resumeBtn.className = `px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${t.btnPrimary}`;
+            if (d.resumePdfUrl) resumeBtn.href = d.resumePdfUrl;
+
+            // Avatar
+            const avatarBox = document.getElementById('avatar-box');
+            avatarBox.className = `w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl font-bold shrink-0 overflow-hidden shadow-lg border-2 ${t.avatar}`;
+            if (d.photoUrl) {
+                const img = document.getElementById('avatar-img');
+                img.src = d.photoUrl;
+                img.classList.remove('hidden');
+                document.getElementById('avatar-initials').classList.add('hidden');
+            } else {
+                document.getElementById('avatar-initials').textContent = d.initials;
+            }
+
+            // Hero Info
+            const roleBadge = document.getElementById('role-badge');
+            roleBadge.className = `px-3 py-1 rounded-full text-xs font-semibold tracking-wide ${t.badge}`;
+            roleBadge.textContent = d.role;
+            document.getElementById('client-location').textContent = d.location;
+            document.getElementById('client-name').textContent = d.name;
+            document.getElementById('client-bio').textContent = d.bio;
+
+            // Contact Actions
+            const waMessage = encodeURIComponent(`Hi ${d.name}, I just viewed your portfolio website and would love to connect!`);
+            document.getElementById('whatsapp-btn').href = `https://wa.me/${d.whatsapp}?text=${waMessage}`;
+            const emailBtn = document.getElementById('email-btn');
+            emailBtn.href = `mailto:${d.email}`;
+            emailBtn.className = `px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 border transition ${t.btnOutline}`;
+            const phoneBtn = document.getElementById('phone-btn');
+            phoneBtn.href = `tel:${d.phone}`;
+            phoneBtn.className = `p-2.5 rounded-xl border transition ${t.btnOutline}`;
+
+            // Social Icons
+            const socialContainer = document.getElementById('social-links');
+            const socialIcons = { linkedin: 'linkedin', github: 'github', instagram: 'instagram', portfolio: 'globe' };
+            Object.entries(d.socials || {}).forEach(([key, url]) => {
+                if (url) {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.target = "_blank";
+                    a.className = `p-2.5 rounded-xl border transition ${t.btnOutline}`;
+                    a.innerHTML = `<i data-lucide="${socialIcons[key] || 'external-link'}" class="w-4 h-4"></i>`;
+                    socialContainer.appendChild(a);
+                }
+            });
+
+            // Stats
+            const statsGrid = document.getElementById('stats-grid');
+            if (d.stats && d.stats.length) {
+                d.stats.forEach(s => {
+                    statsGrid.innerHTML += `
+                        <div class="p-4 rounded-2xl border ${t.subCard}">
+                            <div class="text-xl sm:text-2xl font-extrabold ${t.accentText}">${s.value}</div>
+                            <div class="text-xs opacity-70 mt-0.5">${s.label}</div>
+                        </div>`;
+                });
+            }
+
+            // Icons Accent Color
+            ['skills-icon', 'exp-icon', 'proj-icon', 'edu-icon', 'cert-icon'].forEach(id => {
+                document.getElementById(id).className = `w-5 h-5 ${t.accentText}`;
+            });
+
+            // Skills
+            const skillsContainer = document.getElementById('skills-container');
+            d.skills.forEach(skill => {
+                skillsContainer.innerHTML += `<span class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition ${t.pill}">${skill}</span>`;
+            });
+
+            // Experience
+            const expList = document.getElementById('experience-list');
+            if (d.experience && d.experience.length) {
+                d.experience.forEach(exp => {
+                    const bullets = exp.points.map(p => `<li class="flex items-start gap-2 text-xs sm:text-sm opacity-85"><span class="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${t.glow}"></span><span>${p}</span></li>`).join('');
+                    expList.innerHTML += `
+                        <div class="p-5 sm:p-6 rounded-2xl border transition ${t.subCard}">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
+                                <div>
+                                    <h3 class="font-bold text-base sm:text-lg">${exp.role}</h3>
+                                    <p class="text-xs sm:text-sm font-medium ${t.accentText}">${exp.company} • <span class="opacity-75">${exp.location}</span></p>
+                                </div>
+                                <span class="text-xs px-2.5 py-1 rounded-md border self-start sm:self-auto opacity-75 ${t.divider}">${exp.duration}</span>
+                            </div>
+                            <ul class="space-y-2 mt-3">${bullets}</ul>
+                        </div>`;
+                });
+            } else {
+                document.getElementById('experience-section').classList.add('hidden');
+            }
+
+            // Projects
+            const projGrid = document.getElementById('projects-grid');
+            if (d.projects && d.projects.length) {
+                d.projects.forEach(proj => {
+                    const linkHtml = proj.link ? `<a href="${proj.link}" target="_blank" class="inline-flex items-center gap-1 text-xs font-semibold mt-3 ${t.accentText}">View Project <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>` : '';
+                    projGrid.innerHTML += `
+                        <div class="p-5 rounded-2xl border transition flex flex-col justify-between ${t.subCard}">
+                            <div>
+                                <span class="text-[11px] font-semibold uppercase tracking-wider ${t.accentText}">${proj.tag}</span>
+                                <h3 class="font-bold text-base mt-1">${proj.title}</h3>
+                                <p class="text-xs sm:text-sm opacity-80 mt-2 leading-relaxed">${proj.description}</p>
+                            </div>
+                            ${linkHtml}
+                        </div>`;
+                });
+            } else {
+                document.getElementById('projects-section').classList.add('hidden');
+            }
+
+            // Education
+            const eduList = document.getElementById('education-list');
+            d.education.forEach(edu => {
+                eduList.innerHTML += `
+                    <div class="p-4 rounded-2xl border ${t.subCard}">
+                        <div class="flex items-center justify-between text-xs opacity-70 mb-1">
+                            <span>${edu.year}</span>
+                            <span class="font-semibold ${t.accentText}">${edu.score}</span>
+                        </div>
+                        <h3 class="font-bold text-sm sm:text-base">${edu.degree}</h3>
+                        <p class="text-xs opacity-80 mt-0.5">${edu.institute}</p>
+                    </div>`;
+            });
+
+            // Certifications
+            const certList = document.getElementById('cert-list');
+            if (d.certifications && d.certifications.length) {
+                d.certifications.forEach(c => {
+                    certList.innerHTML += `
+                        <div class="p-3.5 rounded-xl border flex items-center gap-3 text-xs sm:text-sm ${t.subCard}">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0 ${t.accentText}"></i>
+                            <span>${c}</span>
+                        </div>`;
+                });
+            } else {
+                document.getElementById('cert-section').classList.add('hidden');
+            }
+
+            // Footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+            document.getElementById('footer-name').textContent = d.name;
+            document.getElementById('viral-badge').className = `inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border font-medium transition hover:scale-105 ${t.subCard}`;
+
+            lucide.createIcons();
+        }
+
+        function handleResumeDownload(e) {
+            if (!CLIENT_DATA.resumePdfUrl) {
+                e.preventDefault();
+                window.print();
+            }
+        }
+
+        function shareProfile() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Portfolio link copied to clipboard!");
+            }
+        }
+
+        renderPortfolio();
+    </script>
+</body>
+</html>
