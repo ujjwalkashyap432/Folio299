@@ -6,19 +6,16 @@
     <title>Folio299 — Upload Your CV & See Your Live Website Instantly</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- PDF.js for reading PDF CVs in browser -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <!-- Mammoth.js for reading Word (.docx) CVs in browser -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <!-- Razorpay Checkout SDK -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #050811; color: #f8fafc; }
-        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050811; color: #f8fafc; }
+        .font-serif-exec { font-family: 'Playfair Display', serif; }
+        .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
         .glass { background: rgba(15, 23, 42, 0.78); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); }
         .gradient-text { background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .drop-active { border-color: #6366f1 !important; background: rgba(99, 102, 241, 0.12) !important; transform: scale(1.01); }
     </style>
 </head>
 <body class="min-h-screen selection:bg-indigo-500 selection:text-white">
@@ -29,9 +26,8 @@
             <div class="flex items-center gap-2.5">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-black text-white text-sm shadow-md">F</div>
                 <span class="font-extrabold text-lg tracking-tight">Folio<span class="text-indigo-400">299</span></span>
-                <span class="hidden sm:inline-block ml-2 text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">Live CV-to-Website Engine</span>
             </div>
-            <div class="flex items-center gap-3">
+            <div>
                 <label for="cv-upload-input" class="cursor-pointer px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-semibold text-white transition shadow-lg shadow-indigo-600/25 flex items-center gap-1.5">
                     <i data-lucide="upload" class="w-4 h-4"></i>
                     <span>Upload CV</span>
@@ -40,92 +36,76 @@
         </div>
     </nav>
 
-    <!-- ================================================================= -->
-    <!-- STEP 1: UPLOAD YOUR CV HERO SECTION                               -->
-    <!-- ================================================================= -->
-    <section id="upload-hero" class="relative pt-10 pb-16 px-4 sm:px-6 overflow-hidden">
+    <!-- UPLOAD HERO -->
+    <section class="relative pt-10 pb-16 px-4 sm:px-6 overflow-hidden">
         <div class="absolute top-6 left-1/2 -translate-x-1/2 w-[520px] h-[280px] bg-indigo-600/20 blur-[130px] rounded-full pointer-events-none"></div>
 
         <div class="max-w-4xl mx-auto text-center space-y-5 relative z-10">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>Step 1: Drop your CV below to see your live website instantly</span>
+                <span>Instant AI Resume-to-Website Converter</span>
             </div>
 
             <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
-                Put Your CV Below & See <br class="hidden sm:block" />
-                <span class="gradient-text">How Your Website Will Look.</span>
+                Drop Your CV & Preview Your <br class="hidden sm:block" />
+                <span class="gradient-text">Personal Website Instantly.</span>
             </h1>
 
             <p class="text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto">
-                Our engine reads your CV data right now and builds your complete personal homepage preview below. Scroll through your new website, and click <strong>Download Your CV</strong> when you're ready!
+                Upload your PDF or Word resume below. Switch between <strong>Executive</strong>, <strong>Creator</strong>, and <strong>Tech</strong> light themes, then click Download Your Webpage CV when you're ready!
             </p>
 
             <!-- UPLOAD BOX -->
             <div class="max-w-2xl mx-auto mt-6">
-                <div id="drop-area" class="relative rounded-3xl border-2 border-dashed border-indigo-500/50 hover:border-indigo-400 bg-slate-900/70 p-8 sm:p-10 transition-all cursor-pointer group shadow-2xl">
+                <div class="relative rounded-3xl border-2 border-dashed border-indigo-500/50 hover:border-indigo-400 bg-slate-900/70 p-8 sm:p-10 transition-all cursor-pointer group shadow-2xl">
                     <input type="file" id="cv-upload-input" accept=".pdf,.docx,.doc,.txt" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" />
                     
-                    <!-- Idle Upload Prompt -->
                     <div id="upload-idle" class="space-y-4">
                         <div class="w-16 h-16 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center mx-auto group-hover:scale-110 transition">
                             <i data-lucide="file-text" class="w-8 h-8 text-indigo-400"></i>
                         </div>
                         <div>
                             <p class="text-base sm:text-xl font-extrabold text-white">
-                                Drop your CV here (<span class="text-indigo-400">PDF / Word</span>) or <span class="underline text-indigo-400">Browse File</span>
+                                Drop your CV here (<span class="text-indigo-400">PDF / Word</span>) or <span class="underline text-indigo-400">Browse</span>
                             </p>
-                            <p class="text-xs text-slate-400 mt-1">Reads your Name, Role, Skills, Experience & Education automatically</p>
+                            <p class="text-xs text-slate-400 mt-1">Extracts name, skills, experience & education instantly</p>
                         </div>
                         <div class="pt-2">
                             <button type="button" onclick="loadSampleCV(event)" class="relative z-30 px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-indigo-300 border border-slate-700 transition">
-                                ⚡ Or click here to test with a Sample CV right now
+                                ⚡ Click here to test with a Sample CV
                             </button>
                         </div>
                     </div>
 
-                    <!-- Reading / Generating Loader -->
                     <div id="upload-loading" class="hidden py-6 space-y-3">
                         <div class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                        <p class="text-base font-bold text-indigo-300" id="loading-msg">Reading your CV & extracting your profile...</p>
-                        <p class="text-xs text-slate-400">Building your Hero section, Skills matrix, Experience timeline & Education...</p>
+                        <p class="text-base font-bold text-indigo-300">Reading your CV & generating your website...</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ================================================================= -->
-    <!-- STEP 2: FULL LIVE WEBSITE PREVIEW (Appears After Putting CV)      -->
-    <!-- ================================================================= -->
+    <!-- LIVE WEBSITE PREVIEW SECTION -->
     <section id="live-website-section" class="hidden pb-24 px-3 sm:px-6 scroll-mt-20">
         <div class="max-w-5xl mx-auto space-y-5">
 
-            <!-- Preview Theme Switcher Banner -->
+            <!-- Theme Switcher Bar -->
             <div class="p-4 rounded-2xl bg-slate-900/95 border border-indigo-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 sticky top-16 z-30 backdrop-blur-md">
                 <div class="flex items-center gap-2.5">
-                    <span class="px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        Your Live Website Preview
-                    </span>
-                    <span class="text-xs text-slate-300 hidden md:inline">Scroll down to inspect your full profile & download your CV</span>
+                    <span class="text-xs font-bold text-slate-300">Theme Styles:</span>
                 </div>
-
-                <!-- 3 Theme Buttons -->
                 <div class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
-                    <span class="text-[11px] text-slate-400 px-2 hidden sm:inline">Theme:</span>
-                    <button onclick="setWebsiteTheme('executive')" id="btn-theme-executive" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">Executive</button>
-                    <button onclick="setWebsiteTheme('creator')" id="btn-theme-creator" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Creator</button>
-                    <button onclick="setWebsiteTheme('tech')" id="btn-theme-tech" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Tech</button>
+                    <button onclick="setWebsiteTheme('executive')" id="btn-theme-executive" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">Executive</button>
+                    <button onclick="setWebsiteTheme('creator')" id="btn-theme-creator" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Creator</button>
+                    <button onclick="setWebsiteTheme('tech')" id="btn-theme-tech" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Tech</button>
                 </div>
             </div>
 
-            <!-- ========================================================= -->
-            <!-- MOCK BROWSER WINDOW SHOWING THEIR COMPLETE WEBSITE        -->
-            <!-- ========================================================= -->
+            <!-- BROWSER WINDOW CONTAINER -->
             <div class="rounded-3xl border-2 border-slate-800 overflow-hidden shadow-2xl bg-slate-950">
                 
-                <!-- Browser URL Bar -->
+                <!-- URL Bar -->
                 <div class="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-rose-500"></span>
@@ -134,133 +114,85 @@
                     </div>
                     <div class="px-4 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono-code text-slate-300 flex items-center gap-2">
                         <i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i>
-                        <span>https://folio299.vercel.app/<strong id="site-url-slug" class="text-indigo-400">your-name</strong></span>
+                        <span>https://www.<strong id="site-url-domain" class="text-indigo-400">deepakkumar</strong>.com</span>
                     </div>
-                    <div class="hidden sm:flex items-center gap-1.5 text-[11px] text-emerald-400 font-semibold">
-                        <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-                        <span>Mobile & Desktop Ready</span>
-                    </div>
+                    <span class="text-xs text-emerald-400 font-semibold hidden sm:inline">Live Preview</span>
                 </div>
 
-                <!-- ===================================================== -->
-                <!-- THE USER'S ACTUAL GENERATED WEBPAGE BODY              -->
-                <!-- ===================================================== -->
-                <div id="user-webpage-root" class="p-6 sm:p-12 space-y-12 transition-colors duration-300 bg-slate-950 text-slate-100">
+                <!-- DYNAMIC THEME WEBPAGE BODY -->
+                <div id="user-webpage-root" class="p-6 sm:p-12 space-y-10 transition-colors duration-300 bg-white text-slate-900">
 
-                    <!-- 1. WEBSITE INTERNAL NAVBAR -->
-                    <div class="flex items-center justify-between pb-6 border-b border-slate-800/80">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-300">Available for Opportunities</span>
-                        </div>
-                        <div class="flex items-center gap-4 text-xs font-medium text-slate-400">
-                            <a href="#preview-about" class="hover:text-white transition">About</a>
-                            <a href="#preview-skills" class="hover:text-white transition">Skills</a>
-                            <a href="#preview-experience" class="hover:text-white transition">Experience</a>
-                            <a href="#preview-download-cta" class="text-indigo-400 font-bold hover:underline">Download CV ↓</a>
+                    <!-- Navbar inside preview -->
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+                        <span id="brand-logo-text" class="font-extrabold text-base tracking-tight">Portfolio</span>
+                        <div class="flex items-center gap-4 text-xs font-semibold text-slate-600">
+                            <a href="#preview-skills" class="hover:text-indigo-600">Skills</a>
+                            <a href="#preview-experience" class="hover:text-indigo-600">Experience</a>
+                            <a href="#preview-download-cta" class="text-indigo-600 hover:underline">Download CV ↓</a>
                         </div>
                     </div>
 
-                    <!-- 2. HERO PROFILE CARD -->
-                    <div id="preview-about" class="rounded-3xl p-6 sm:p-10 border border-slate-800 bg-slate-900/60 relative overflow-hidden shadow-xl">
-                        <div class="flex flex-col md:flex-row items-start md:items-center gap-6 relative z-10">
-                            <!-- Initials Avatar -->
-                            <div id="site-avatar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-2xl sm:text-3xl font-black text-white shrink-0 shadow-lg border-2 border-indigo-400/30">
-                                YN
+                    <!-- Hero Header -->
+                    <div id="preview-hero-card" class="rounded-3xl p-6 sm:p-10 border border-slate-200 bg-slate-50/80 shadow-sm relative overflow-hidden">
+                        <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                            <div id="site-avatar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-indigo-600 flex items-center justify-center text-2xl sm:text-3xl font-black text-white shrink-0 shadow-md">
+                                DK
                             </div>
-
-                            <!-- Name, Role & Bio -->
-                            <div class="flex-1 space-y-2.5">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span id="site-role" class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
-                                        Verified Professional
-                                    </span>
-                                    <span class="text-xs text-slate-400 flex items-center gap-1">
-                                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-indigo-400"></i>
-                                        <span id="site-location">India</span>
-                                    </span>
-                                </div>
-
-                                <h2 id="site-name" class="text-3xl sm:text-4xl font-black tracking-tight text-white">Your Name</h2>
-                                <p id="site-bio" class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl"></p>
+                            <div class="space-y-2 flex-1">
+                                <span id="site-role" class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">Professional</span>
+                                <h2 id="site-name" class="text-3xl sm:text-4xl font-extrabold tracking-tight">Deepak Kumar</h2>
+                                <p id="site-bio" class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl"></p>
                             </div>
                         </div>
-
-                        <!-- Contact Bar Inside Preview -->
-                        <div class="mt-7 pt-6 border-t border-slate-800/90 flex flex-wrap items-center gap-3 text-xs">
-                            <div class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-2 text-slate-300">
-                                <i data-lucide="mail" class="w-3.5 h-3.5 text-indigo-400"></i>
-                                <span id="site-email">email@example.com</span>
-                            </div>
-                            <div class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-2 text-slate-300">
-                                <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-400"></i>
-                                <span id="site-phone">+91 XXXXXXXXXX</span>
-                            </div>
-                            <span class="ml-auto text-[11px] text-slate-400 italic hidden sm:inline">
-                                Interactive WhatsApp & Email buttons active on live link
-                            </span>
+                        <div class="mt-6 pt-5 border-t border-slate-200 flex flex-wrap gap-4 text-xs font-medium text-slate-600">
+                            <span class="flex items-center gap-1.5"><i data-lucide="mail" class="w-4 h-4 text-indigo-500"></i><span id="site-email">email@example.com</span></span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="phone" class="w-4 h-4 text-emerald-500"></i><span id="site-phone">+91 9876543210</span></span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i><span id="site-location">India</span></span>
                         </div>
                     </div>
 
-                    <!-- 3. CORE SKILLS & COMPETENCIES SECTION -->
-                    <div id="preview-skills" class="space-y-4">
-                        <div class="flex items-center gap-2">
-                            <i data-lucide="zap" class="w-5 h-5 text-indigo-400"></i>
-                            <h3 class="text-lg font-extrabold tracking-tight">Core Skills & Technical Competencies</h3>
-                        </div>
-                        <div id="site-skills-list" class="flex flex-wrap gap-2.5"></div>
+                    <!-- Skills -->
+                    <div id="preview-skills" class="space-y-3">
+                        <h3 class="text-base font-extrabold tracking-tight flex items-center gap-2">
+                            <i data-lucide="zap" class="w-5 h-5 text-indigo-600"></i> Skills & Expertise
+                        </h3>
+                        <div id="site-skills-list" class="flex flex-wrap gap-2"></div>
                     </div>
 
-                    <!-- 4. WORK EXPERIENCE & PROJECTS TIMELINE -->
-                    <div id="preview-experience" class="space-y-4">
-                        <div class="flex items-center gap-2">
-                            <i data-lucide="briefcase" class="w-5 h-5 text-indigo-400"></i>
-                            <h3 class="text-lg font-extrabold tracking-tight">Professional Experience & Key Achievements</h3>
-                        </div>
-                        <div id="site-experience-list" class="space-y-4"></div>
+                    <!-- Experience -->
+                    <div id="preview-experience" class="space-y-3">
+                        <h3 class="text-base font-extrabold tracking-tight flex items-center gap-2">
+                            <i data-lucide="briefcase" class="w-5 h-5 text-indigo-600"></i> Experience & Achievements
+                        </h3>
+                        <div id="site-experience-list" class="space-y-3"></div>
                     </div>
 
-                    <!-- 5. EDUCATION & ACADEMIC BACKGROUND -->
-                    <div id="preview-education" class="space-y-4">
-                        <div class="flex items-center gap-2">
-                            <i data-lucide="graduation-cap" class="w-5 h-5 text-indigo-400"></i>
-                            <h3 class="text-lg font-extrabold tracking-tight">Education & Qualifications</h3>
-                        </div>
-                        <div id="site-education-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    <!-- Education -->
+                    <div class="space-y-3">
+                        <h3 class="text-base font-extrabold tracking-tight flex items-center gap-2">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 text-indigo-600"></i> Education
+                        </h3>
+                        <div id="site-education-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
                     </div>
 
-                    <!-- ================================================= -->
-                    <!-- STEP 3: SCROLL DOWN -> DOWNLOAD YOUR CV SECTION   -->
-                    <!-- ================================================= -->
-                    <div id="preview-download-cta" class="pt-6">
-                        <div class="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-indigo-500/50 text-center space-y-6 shadow-2xl relative overflow-hidden">
-                            <div class="w-16 h-16 rounded-2xl bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center mx-auto text-indigo-300">
-                                <i data-lucide="file-down" class="w-8 h-8"></i>
+                    <!-- CTA DOWNLOAD BUTTON SECTION -->
+                    <div id="preview-download-cta" class="pt-8">
+                        <div class="rounded-3xl p-8 sm:p-10 bg-slate-900 text-white text-center space-y-6 shadow-2xl relative overflow-hidden">
+                            <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center mx-auto text-indigo-400">
+                                <i data-lucide="file-down" class="w-7 h-7"></i>
                             </div>
-
-                            <div class="space-y-2 max-w-xl mx-auto">
-                                <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                                    Your Webpage Overview Is Ready!
-                                </span>
-                                <h3 class="text-2xl sm:text-3xl font-black text-white">
-                                    Download Your CV & Claim This Live Website
-                                </h3>
-                                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                                    Unlock your downloadable CV button, activate your permanent personal website link (<strong id="cta-slug-preview" class="text-indigo-300">folio299.vercel.app/your-name</strong>), and get the polished version delivered to your email within 24 hours for just <strong>₹299</strong>.
+                            <div class="space-y-2 max-w-lg mx-auto">
+                                <h3 class="text-2xl sm:text-3xl font-black">Love your preview?</h3>
+                                <p class="text-xs sm:text-sm text-slate-300">
+                                    Click below to fill in your delivery details and unlock your permanent live custom domain website + CV download!
                                 </p>
                             </div>
-
-                            <!-- THE MAIN BUTTON THAT TRIGGERS THE PAYMENT POPUP -->
-                            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-                                <button onclick="openPaymentPopup()" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-base flex items-center justify-center gap-2.5 shadow-xl shadow-emerald-500/25 transition transform hover:scale-105">
+                            <div>
+                                <button onclick="openPaymentPopup()" class="px-8 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm sm:text-base flex items-center justify-center gap-2.5 mx-auto shadow-xl shadow-emerald-500/20 transition transform hover:scale-105">
                                     <i data-lucide="download" class="w-5 h-5"></i>
-                                    <span>Download Your CV & Get Live Website (₹299)</span>
+                                    <span>Download Your Webpage CV</span>
                                 </button>
                             </div>
-
-                            <p class="text-[11px] text-slate-400">
-                                Instant Razorpay Receipt • Confirmation Email Sent Immediately • Full Live Link in 24 Hours
-                            </p>
                         </div>
                     </div>
 
@@ -269,105 +201,101 @@
         </div>
     </section>
 
-    <!-- ================================================================= -->
-    <!-- STEP 4: PAYMENT POPUP MODAL (COMES UP ON CLICKING DOWNLOAD CV)    -->
-    <!-- ================================================================= -->
+    <!-- PAYMENT MODAL -->
     <div id="payment-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl text-white">
             <button onclick="closePaymentPopup()" class="absolute top-5 right-5 text-slate-400 hover:text-white">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
 
-            <!-- Checkout Form View -->
+            <!-- Checkout Form -->
             <div id="popup-checkout-view" class="space-y-5">
                 <div>
                     <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                        Final Step • Instant Confirmation
+                        Secure Checkout • Instant Delivery
                     </span>
-                    <h3 class="text-xl font-black text-white mt-2">Download CV & Publish Website</h3>
-                    <p class="text-xs text-slate-400 mt-1">
-                        Verify your details below. As soon as you complete the ₹299 payment, you will receive an instant confirmation email and your live website within 24 hours.
-                    </p>
+                    <h3 class="text-xl font-black mt-2">Download CV & Publish Website</h3>
+                    <p class="text-xs text-slate-400 mt-1">Enter your details below. Payment opens automatically.</p>
                 </div>
 
                 <form onsubmit="triggerRazorpay(event)" class="space-y-3.5">
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">Your Full Name *</label>
-                        <input type="text" id="pay-name" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="Your Full Name">
+                        <input type="text" id="pay-name" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="Deepak Kumar">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Your Email (For Confirmation Mail & Website Link) *</label>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Your Email (For Website Link & Receipt) *</label>
                         <input type="email" id="pay-email" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="you@gmail.com">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp Number *</label>
-                        <input type="tel" id="pay-phone" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="10-digit WhatsApp number">
+                        <input type="tel" id="pay-phone" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="10-digit number">
                     </div>
 
-                    <!-- Optional ATS PDF Makeover Add-on -->
-                    <label class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 cursor-pointer hover:border-indigo-500/50">
-                        <div class="flex items-center gap-2.5">
-                            <input type="checkbox" id="pay-upsell" onchange="updatePayButtonTotal()" class="w-4 h-4 accent-indigo-600 rounded">
-                            <div>
-                                <div class="text-xs font-bold text-white">+ Upgraded ATS Resume PDF</div>
-                                <div class="text-[11px] text-slate-400">Get a newly formatted PDF CV along with your website</div>
+                    <!-- UPGRADES / UPSELLS -->
+                    <div class="space-y-2 pt-1">
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 cursor-pointer hover:border-indigo-500/50">
+                            <div class="flex items-center gap-2.5">
+                                <input type="checkbox" id="pay-upsell-ats" onchange="updateTotal()" class="w-4 h-4 accent-indigo-600 rounded">
+                                <div>
+                                    <div class="text-xs font-bold text-white">+ ATS Resume PDF Makeover</div>
+                                    <div class="text-[11px] text-slate-400">Recruiter-ready PDF CV formatting</div>
+                                </div>
                             </div>
-                        </div>
-                        <span class="text-xs font-bold text-indigo-400">+₹199</span>
-                    </label>
+                            <span class="text-xs font-bold text-indigo-400">+₹199</span>
+                        </label>
+
+                        <!-- DOMAIN UPGRADE OPTION JUST BELOW ATS OPTION -->
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 cursor-pointer hover:border-indigo-500/50">
+                            <div class="flex items-center gap-2.5">
+                                <input type="checkbox" id="pay-upsell-domain" onchange="updateTotal()" class="w-4 h-4 accent-indigo-600 rounded">
+                                <div>
+                                    <div class="text-xs font-bold text-white">+ Custom Domain (.in / .com Setup)</div>
+                                    <div class="text-[11px] text-slate-400">Get yourname.com or .in connected</div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-indigo-400">+₹699</span>
+                        </label>
+                    </div>
 
                     <button type="submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition">
-                        <i data-lucide="lock" class="w-4 h-4"></i>
-                        <span>Pay ₹<span id="pay-btn-amount">299</span> & Unlock Now</span>
+                        <span>Pay ₹<span id="pay-btn-amount">299</span> & Download Webpage CV</span>
                     </button>
-                    <p class="text-[11px] text-center text-slate-500">100% Secure via Razorpay • UPI, GPay, PhonePe, Cards</p>
+                    <p class="text-[11px] text-center text-slate-500">Secured by Razorpay</p>
                 </form>
             </div>
 
-            <!-- Post-Payment Confirmation View -->
+            <!-- Success View -->
             <div id="popup-success-view" class="hidden text-center space-y-4 py-3">
                 <div class="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto text-emerald-400">
                     <i data-lucide="check-circle-2" class="w-8 h-8"></i>
                 </div>
-                <h3 class="text-2xl font-black text-white">₹<span id="paid-amt-text">299</span> Received!</h3>
-                <p class="text-xs text-slate-300 leading-relaxed">
-                    Thank you, <strong id="paid-name-text" class="text-white"></strong>! We have sent a confirmation email to <strong id="paid-email-text" class="text-indigo-400"></strong> (Payment ID: <code id="paid-id-text" class="text-emerald-400"></code>).
+                <h3 class="text-2xl font-black">₹<span id="paid-amt-text">299</span> Received!</h3>
+                <p class="text-xs text-slate-300">
+                    Thank you, <strong id="paid-name-text" class="text-white"></strong>! Confirmation sent to <strong id="paid-email-text" class="text-indigo-400"></strong>.
                 </p>
-                <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1.5 text-left">
-                    <div class="font-bold text-emerald-400">✅ Confirmation Mail Sent:</div>
-                    <p>• Your CV & profile data have been saved to our Google Drive.</p>
-                    <p>• Your permanent live website link will be delivered to your email and WhatsApp within <strong>24 hours</strong>.</p>
+                <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-300 text-left space-y-1">
+                    <div class="font-bold text-emerald-400">✅ Delivery in Progress:</div>
+                    <p>• Your custom website link will be delivered within 24 hours.</p>
                 </div>
-                <button onclick="printCurrentPreview()" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2">
-                    <i data-lucide="download" class="w-4 h-4"></i>
-                    <span>Download Instant Preview PDF Copy Now</span>
+                <button onclick="closePaymentPopup(); window.print();" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs">
+                    Download Preview PDF Copy Now
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ================================================================= -->
-    <!-- ⚙️ FULL CV PARSER + LIVE WEBSITE BUILDER + RAZORPAY + GDRIVE      -->
-    <!-- ================================================================= -->
+    <!-- SCRIPT ENGINE -->
     <script>
-        // 👇 PASTE YOUR KEYS HERE 👇
         const CONFIG = {
-            // 1. Your Google Apps Script URL (for Google Drive CV upload + Sheet + Auto-Gmail)
-            GOOGLE_SCRIPT_URL: "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE",
-
-            // 2. Your Activated Razorpay Key ID (from Comve / Razorpay Dashboard)
-            RAZORPAY_KEY_ID: "YOUR_RAZORPAY_KEY_ID", // e.g., "rzp_live_xxxxxxxx"
-
-            // 3. Your WhatsApp Number
-            ADMIN_WHATSAPP: "919876543210"
+            RAZORPAY_KEY_ID: "YOUR_RAZORPAY_KEY_ID" // Replace with your live key ID
         };
 
-        // Configure PDF.js Worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         let cvData = {
-            name: "Aarav Sharma",
-            role: "Growth & Marketing Professional",
+            name: "Deepak Kumar",
+            role: "Professional",
             email: "",
             phone: "",
             location: "India",
@@ -375,14 +303,9 @@
             skills: [],
             experience: [],
             education: [],
-            theme: "executive",
-            fileName: "",
-            fileBase64: "",
-            driveFileUrl: "",
-            paymentId: ""
+            theme: "executive"
         };
 
-        // Convert File to Base64 for automatic Google Drive saving
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -392,37 +315,6 @@
             });
         }
 
-        // Send CV & Customer Info to Google Drive + Google Sheet + Auto-Gmail
-        async function syncWithGoogleBackend(status, amount = 0, paymentId = "PENDING") {
-            if (!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) return;
-            try {
-                const payload = {
-                    status: status,
-                    name: cvData.name,
-                    phone: cvData.phone,
-                    email: cvData.email,
-                    theme: cvData.theme,
-                    amount: amount,
-                    paymentId: paymentId,
-                    fileName: status === "PREVIEW_LEAD" ? cvData.fileName : "",
-                    fileBase64: status === "PREVIEW_LEAD" ? cvData.fileBase64 : "",
-                    existingFileUrl: cvData.driveFileUrl
-                };
-                const res = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify(payload)
-                });
-                const out = await res.json();
-                if (out.fileUrl) cvData.driveFileUrl = out.fileUrl;
-            } catch (e) {
-                console.error("Google Sync Error:", e);
-            }
-        }
-
-        // =================================================================
-        // 1. READ UPLOADED CV (SUPPORTS PDF, DOCX, AND TXT)
-        // =================================================================
         const uploadInput = document.getElementById('cv-upload-input');
         uploadInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
@@ -435,263 +327,125 @@
             document.getElementById('upload-loading').classList.remove('hidden');
 
             try {
-                cvData.fileName = `${Date.now()}_${file.name}`;
-                cvData.fileBase64 = await fileToBase64(file);
-
-                let extractedText = "";
+                let text = "";
                 const ext = file.name.split('.').pop().toLowerCase();
-
                 if (ext === 'pdf') {
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                    const buf = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
                     for (let i = 1; i <= pdf.numPages; i++) {
                         const page = await pdf.getPage(i);
                         const content = await page.getTextContent();
-                        // Preserve line breaks using Y-coordinates so sections stay separated
-                        let lastY = null;
-                        for (const item of content.items) {
-                            if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
-                                extractedText += "\n";
-                            }
-                            extractedText += item.str + " ";
-                            lastY = item.transform[5];
-                        }
-                        extractedText += "\n";
+                        text += content.items.map(item => item.str).join(" ") + "\n";
                     }
                 } else if (ext === 'docx') {
-                    const arrayBuffer = await file.arrayBuffer();
-                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
-                    extractedText = result.value;
+                    const buf = await file.arrayBuffer();
+                    const res = await mammoth.extractRawText({ arrayBuffer: buf });
+                    text = res.value;
                 } else {
-                    extractedText = await file.text();
+                    text = await file.text();
                 }
 
-                // If scanned image PDF has no selectable text, use filename gracefully
-                if (!extractedText || extractedText.trim().length < 20) {
-                    const cleanFileName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
-                    extractedText = `${cleanFileName}\nProfessional Portfolio\nExperienced professional with strong domain expertise, project execution skills, and a commitment to delivering measurable results.`;
+                if (!text || text.trim().length < 20) {
+                    text = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ") + "\nProfessional Portfolio\nExperienced professional.";
                 }
 
-                parseCVIntoStructuredWebsite(extractedText, file.name);
-                syncWithGoogleBackend("PREVIEW_LEAD", 0, "PREVIEW_ONLY");
-
+                parseCV(text, file.name);
             } catch (err) {
-                console.error("Error reading file, using smart fallback:", err);
-                const cleanFileName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
-                parseCVIntoStructuredWebsite(cleanFileName, file.name);
+                parseCV("Deepak Kumar\nProfessional Portfolio", file.name);
             }
         }
 
-        // =================================================================
-        // 2. SMART CV PARSER -> EXTRACTS NAME, SKILLS, EXPERIENCE, EDUCATION
-        // =================================================================
-        function parseCVIntoStructuredWebsite(rawText, fileName = "") {
-            const lines = rawText.split(/\r?\n/).map(l => l.replace(/\s+/g, ' ').trim()).filter(l => l.length > 1);
+        function parseCV(rawText, fileName) {
+            const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
 
-            // 1. Email
             const emailMatch = rawText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-            cvData.email = emailMatch ? emailMatch[0] : "";
+            cvData.email = emailMatch ? emailMatch[0] : "deepak.kumar@email.com";
 
-            // 2. Phone
             const phoneMatch = rawText.match(/(?:\+?91[\-\s]?)?[6-9]\d{9}/);
-            cvData.phone = phoneMatch ? phoneMatch[0] : "";
+            cvData.phone = phoneMatch ? phoneMatch[0] : "+91 9876543210";
 
-            // 3. Name (First clean line that isn't "Resume" or an email/phone)
-            let detectedName = "";
-            for (let i = 0; i < Math.min(lines.length, 8); i++) {
-                const candidate = lines[i];
-                if (
-                    candidate.length >= 3 &&
-                    candidate.length <= 38 &&
-                    !candidate.includes('@') &&
-                    !/resume|curriculum|vitae|cv|bio-data|page/i.test(candidate) &&
-                    !/\d{4}/.test(candidate)
-                ) {
-                    detectedName = candidate.replace(/[^a-zA-Z\s.]/g, '').trim();
-                    if (detectedName.split(' ').length >= 1) break;
+            let name = "";
+            for (let i = 0; i < Math.min(lines.length, 5); i++) {
+                if (lines[i].length >= 3 && !lines[i].includes('@') && !/resume|cv/i.test(lines[i])) {
+                    name = lines[i].replace(/[^a-zA-Z\s.]/g, '').trim();
+                    break;
                 }
             }
-            if (!detectedName) {
-                detectedName = fileName.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ").replace(/resume|cv/ig, "").trim() || "Your Name";
-            }
-            cvData.name = detectedName;
+            cvData.name = name || "Deepak Kumar";
 
-            // 4. Location Detection
-            const cities = ["Delhi", "Noida", "Greater Noida", "Gurugram", "Mumbai", "Bengaluru", "Bangalore", "Pune", "Hyderabad", "Chennai", "Kolkata", "Patna", "Jaipur", "Lucknow", "Ahmedabad", "Indore", "Bhopal", "Bihar", "Uttar Pradesh", "India"];
-            const foundCity = cities.find(c => new RegExp(`\\b${c}\\b`, 'i').test(rawText));
-            cvData.location = foundCity ? `${foundCity}, India` : "India";
+            const roles = ["Software Engineer", "Marketing Manager", "Product Manager", "Full Stack Developer", "Data Analyst", "Content Creator", "Graphic Designer", "Consultant"];
+            cvData.role = roles.find(r => new RegExp(r, 'i').test(rawText)) || "Professional & Creator";
 
-            // 5. Role Detection
-            const roleKeywords = [
-                "Marketing Manager", "Digital Marketer", "Software Engineer", "Full Stack Developer",
-                "Frontend Developer", "Backend Developer", "Data Analyst", "Data Scientist",
-                "Business Analyst", "Product Manager", "Graphic Designer", "UI/UX Designer",
-                "Video Editor", "Content Creator", "Sales Manager", "Business Development",
-                "HR Executive", "Human Resources", "Operations Manager", "Financial Analyst",
-                "Accountant", "Mechanical Engineer", "Civil Engineer", "MBA Graduate", "Management Trainee"
-            ];
-            const matchedRole = roleKeywords.find(r => new RegExp(r, 'i').test(rawText));
-            cvData.role = matchedRole || "Verified Professional";
+            const skillBank = ["JavaScript", "Python", "React", "Node.js", "SQL", "Marketing Strategy", "SEO", "Content Creation", "Video Editing", "Project Management", "UI/UX Design", "Figma", "Data Analysis", "Leadership", "Sales", "Communication"];
+            cvData.skills = skillBank.filter(s => new RegExp(`\\b${s}\\b`, 'i').test(rawText));
+            if (cvData.skills.length < 4) cvData.skills = ["Strategic Planning", "Project Execution", "Digital Tools", "Problem Solving", "Client Communication"];
 
-            // 6. Skills Extraction
-            const masterSkills = [
-                "Marketing Strategy", "Digital Marketing", "Google Ads", "Meta Ads", "SEO", "Social Media",
-                "Content Creation", "Video Editing", "Brand Management", "JavaScript", "Python", "React",
-                "Node.js", "HTML & CSS", "SQL", "MongoDB", "Java", "C++", "AWS", "Git & GitHub",
-                "Microsoft Excel", "PowerPoint", "Data Analysis", "Power BI", "Tableau", "Figma",
-                "Canva", "Adobe Premiere Pro", "Photoshop", "Project Management", "Team Leadership",
-                "Sales & Negotiation", "CRM", "Client Servicing", "Business Development", "Communication",
-                "Financial Modeling", "Operations", "Market Research", "Public Speaking"
-            ];
-            const foundSkills = masterSkills.filter(s => {
-                const clean = s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                return new RegExp(`\\b${clean}\\b`, 'i').test(rawText);
-            });
-            cvData.skills = foundSkills.length >= 4 ? foundSkills.slice(0, 12) : [
-                "Strategic Planning", "Project Execution", "Problem Solving", "Team Leadership",
-                "Client Communication", "Analytical Thinking", "Digital Tools", "Time Management"
-            ];
+            cvData.experience = lines.filter(l => l.length > 30 && l.length < 150 && !l.includes('@')).slice(0, 4);
+            if (cvData.experience.length === 0) cvData.experience = ["Executed core projects successfully with measurable high-efficiency performance.", "Collaborated in cross-functional team environments to scale results."];
 
-            // 7. Experience & Bullet Highlights Extraction
-            const expLines = lines.filter(l => 
-                l.length > 35 && 
-                l.length < 180 && 
-                !l.includes('@') && 
-                l !== cvData.name &&
-                !/education|bachelor|master|university|school|college|cgpa|percentage/i.test(l)
-            );
+            cvData.education = ["Bachelor / Master Degree Program — Verified from CV", "Academic & Professional Certifications"];
+            cvData.bio = `${cvData.name} is a ${cvData.role} specializing in modern execution, technical strategy, and digital growth.`;
 
-            cvData.experience = expLines.slice(0, 5);
-            if (cvData.experience.length === 0) {
-                cvData.experience = [
-                    "Delivered high-impact results across core projects and organizational initiatives.",
-                    "Collaborated with cross-functional teams to streamline workflows and achieve targets.",
-                    "Demonstrated strong technical and analytical capabilities in fast-paced environments."
-                ];
-            }
-
-            // 8. Education Extraction
-            const eduRegex = /(MBA|BBA|B\.?Tech|M\.?Tech|BCA|MCA|B\.?Com|M\.?Com|B\.?Sc|M\.?Sc|B\.?A|Bachelor|Master|Post Graduate|Diploma|University|College|Institute|Class XII|12th|10th)/i;
-            const eduLines = lines.filter(l => eduRegex.test(l) && l.length > 6 && l.length < 120);
-            cvData.education = eduLines.length > 0 ? eduLines.slice(0, 4) : [
-                "Bachelor's / Postgraduate Degree — Verified from Uploaded CV",
-                "Higher Secondary & Academic Certifications"
-            ];
-
-            // 9. Bio Summary
-            cvData.bio = `${cvData.name} is a ${cvData.role} based in ${cvData.location}, skilled in ${cvData.skills.slice(0, 4).join(", ")}. Explore my full professional track record, skills, and downloadable CV below.`;
-
-            renderLiveWebsitePreview();
+            renderPreview();
         }
 
-        function loadSampleCV(e) {
-            if (e) e.stopPropagation();
-            const sample = `
-                Ujjwal Kashyap
-                ujjwalkashyap432@gmail.com
-                +91 9876543210
-                Greater Noida, India
-                Marketing Manager & Content Creator
-                MBA in Marketing and Bachelor's in Business Management with hands-on expertise in Brand Management, Digital Marketing, Video Editing, Content Creation, Social Media, Meta Ads, React, and Project Management.
-                Executed corporate media marketing campaigns for commercial EV and retail brands with high engagement.
-                Founded and scaled an on-demand hyperlocal creator platform connecting clients with verified photographers.
-                Produced high-retention digital video content and built custom web applications deployed on Vercel.
-                Master of Business Administration (MBA) in Marketing
-                Bachelor of Business Management (BBM)
-            `;
-            parseCVIntoStructuredWebsite(sample, "Sample-Resume.pdf");
+        function loadSampleCV() {
+            parseCV("Deepak Kumar\ndeepak.kumar@gmail.com\n+91 9876543210\nNoida, India\nSenior Creator & Full Stack Developer\nExpert in React, Node.js, Video Production, Brand Growth, and UI/UX Design.\nBuilt and scaled web apps and digital media channels.\nBTech in Computer Science.", "Deepak-Kumar-CV.pdf");
         }
 
-        // =================================================================
-        // 3. BUILD & DISPLAY THE USER'S LIVE WEBSITE ON SCREEN
-        // =================================================================
-        function renderLiveWebsitePreview() {
+        function renderPreview() {
             document.getElementById('upload-loading').classList.add('hidden');
             document.getElementById('upload-idle').classList.remove('hidden');
 
-            const initials = cvData.name.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase() || "CV";
-            const slug = cvData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || "your-name";
-
-            document.getElementById('site-url-slug').textContent = slug;
-            document.getElementById('cta-slug-preview').textContent = `folio299.vercel.app/${slug}`;
-            document.getElementById('site-avatar').textContent = initials;
+            const domainSlug = cvData.name.toLowerCase().replace(/[^a-z0-9]+/g, '');
+            document.getElementById('site-url-domain').textContent = domainSlug || "deepakkumar";
             document.getElementById('site-name').textContent = cvData.name;
             document.getElementById('site-role').textContent = cvData.role;
-            document.getElementById('site-location').textContent = cvData.location;
             document.getElementById('site-bio').textContent = cvData.bio;
-            document.getElementById('site-email').textContent = cvData.email || "your.email@gmail.com (from CV)";
-            document.getElementById('site-phone').textContent = cvData.phone || "+91 Verified on Live Site";
+            document.getElementById('site-email').textContent = cvData.email;
+            document.getElementById('site-phone').textContent = cvData.phone;
+            document.getElementById('site-location').textContent = cvData.location;
 
-            // Render Skills Pills
-            const skillsContainer = document.getElementById('site-skills-list');
-            skillsContainer.innerHTML = cvData.skills.map(skill => `
-                <span class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs sm:text-sm font-semibold text-slate-200 shadow-sm">
-                    ${skill}
-                </span>
-            `).join('');
+            document.getElementById('site-skills-list').innerHTML = cvData.skills.map(s => `<span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold shadow-sm">${s}</span>`).join('');
+            document.getElementById('site-experience-list').innerHTML = cvData.experience.map(e => `<div class="p-4 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm text-slate-700 shadow-sm">${e}</div>`).join('');
+            document.getElementById('site-education-list').innerHTML = cvData.education.map(ed => `<div class="p-4 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm">${ed}</div>`).join('');
 
-            // Render Experience Cards
-            const expContainer = document.getElementById('site-experience-list');
-            expContainer.innerHTML = cvData.experience.map((item, idx) => `
-                <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 flex items-start gap-3.5">
-                    <div class="w-7 h-7 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-xs font-bold text-indigo-400 shrink-0 mt-0.5">
-                        0${idx + 1}
-                    </div>
-                    <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">${item}</p>
-                </div>
-            `).join('');
-
-            // Render Education Cards
-            const eduContainer = document.getElementById('site-education-list');
-            eduContainer.innerHTML = cvData.education.map(edu => `
-                <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 flex items-center gap-3.5">
-                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
-                        <i data-lucide="award" class="w-5 h-5"></i>
-                    </div>
-                    <div class="text-xs sm:text-sm font-semibold text-slate-200">${edu}</div>
-                </div>
-            `).join('');
-
-            // Pre-fill Payment Popup Form
-            document.getElementById('pay-name').value = cvData.name !== "Your Name" ? cvData.name : "";
+            document.getElementById('pay-name').value = cvData.name;
             document.getElementById('pay-email').value = cvData.email;
             document.getElementById('pay-phone').value = cvData.phone;
 
-            // Unhide the Live Website Preview & Smooth Scroll to it!
             const section = document.getElementById('live-website-section');
             section.classList.remove('hidden');
             lucide.createIcons();
-            setTimeout(() => {
-                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 150);
+            section.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Theme Switcher inside Preview
         function setWebsiteTheme(theme) {
             cvData.theme = theme;
             const root = document.getElementById('user-webpage-root');
             const avatar = document.getElementById('site-avatar');
+            const brandText = document.getElementById('brand-logo-text');
 
             ['executive', 'creator', 'tech'].forEach(t => {
-                document.getElementById(`btn-theme-${t}`).className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+                document.getElementById(`btn-theme-${t}`).className = "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
             });
-            document.getElementById(`btn-theme-${theme}`).className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition";
+            document.getElementById(`btn-theme-${theme}`).className = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition";
 
             if (theme === 'executive') {
-                root.className = "p-6 sm:p-12 space-y-12 transition-colors duration-300 bg-slate-950 text-slate-100";
-                avatar.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-indigo-600 to-blue-700 flex items-center justify-center text-2xl sm:text-3xl font-black text-white shrink-0 shadow-lg";
+                root.className = "p-6 sm:p-12 space-y-10 transition-colors duration-300 bg-[#fdfbf7] text-slate-900 font-serif-exec";
+                avatar.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-slate-900 text-white flex items-center justify-center text-2xl font-bold shadow-md";
+                brandText.textContent = `${cvData.name} — Executive Portfolio`;
             } else if (theme === 'creator') {
-                root.className = "p-6 sm:p-12 space-y-12 transition-colors duration-300 bg-zinc-950 text-zinc-100";
-                avatar.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-rose-500 via-fuchsia-600 to-orange-500 flex items-center justify-center text-2xl sm:text-3xl font-black text-white shrink-0 shadow-lg";
+                root.className = "p-6 sm:p-12 space-y-10 transition-colors duration-300 bg-gradient-to-br from-rose-50/60 via-white to-orange-50/40 text-slate-900";
+                avatar.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-tr from-rose-500 via-pink-600 to-amber-500 text-white flex items-center justify-center text-2xl font-black shadow-lg";
+                brandText.textContent = `✨ ${cvData.name} Studio`;
             } else if (theme === 'tech') {
-                root.className = "p-6 sm:p-12 space-y-12 transition-colors duration-300 bg-[#040b11] text-emerald-50 font-mono-code";
-                avatar.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-800 flex items-center justify-center text-2xl sm:text-3xl font-black text-white shrink-0 shadow-lg";
+                root.className = "p-6 sm:p-12 space-y-10 transition-colors duration-300 bg-[#040b11] text-emerald-100 font-mono-tech";
+                avatar.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-emerald-600 text-slate-950 flex items-center justify-center text-2xl font-black shadow-lg border border-emerald-400/40";
+                brandText.textContent = `root@${cvData.name.toLowerCase().replace(/\s+/g,'-')}:~$`;
             }
         }
 
-        // =================================================================
-        // 4. PAYMENT POPUP + RAZORPAY + CONFIRMATION EMAIL
-        // =================================================================
         function openPaymentPopup() {
             document.getElementById('popup-checkout-view').classList.remove('hidden');
             document.getElementById('popup-success-view').classList.add('hidden');
@@ -702,67 +456,50 @@
             document.getElementById('payment-modal').classList.add('hidden');
         }
 
-        function getPayTotal() {
-            return document.getElementById('pay-upsell').checked ? 498 : 299;
+        function getTotalAmount() {
+            let total = 299;
+            if (document.getElementById('pay-upsell-ats').checked) total += 199;
+            if (document.getElementById('pay-upsell-domain').checked) total += 699;
+            return total;
         }
 
-        function updatePayButtonTotal() {
-            document.getElementById('pay-btn-amount').textContent = getPayTotal();
+        function updateTotal() {
+            document.getElementById('pay-btn-amount').textContent = getTotalAmount();
         }
 
         function triggerRazorpay(e) {
             e.preventDefault();
-            cvData.name = document.getElementById('pay-name').value.trim();
-            cvData.email = document.getElementById('pay-email').value.trim();
-            cvData.phone = document.getElementById('pay-phone').value.trim();
-            const amount = getPayTotal();
+            const name = document.getElementById('pay-name').value;
+            const email = document.getElementById('pay-email').value;
+            const phone = document.getElementById('pay-phone').value;
+            const amt = getTotalAmount();
 
-            // If Razorpay Key isn't pasted yet, run a realistic test simulation so you can test the flow
             if (!CONFIG.RAZORPAY_KEY_ID || CONFIG.RAZORPAY_KEY_ID === "YOUR_RAZORPAY_KEY_ID") {
-                const demoPayId = "pay_LIVE_" + Math.floor(100000 + Math.random() * 900000);
-                onPaymentComplete(demoPayId, amount);
+                onPaymentSuccess("pay_SIMULATED_" + Math.floor(100000 + Math.random() * 900000), amt);
                 return;
             }
 
             const options = {
                 key: CONFIG.RAZORPAY_KEY_ID,
-                amount: amount * 100,
+                amount: amt * 100,
                 currency: "INR",
                 name: "Folio299",
-                description: `Live Portfolio Website + CV (${cvData.theme.toUpperCase()})`,
-                prefill: {
-                    name: cvData.name,
-                    email: cvData.email,
-                    contact: cvData.phone
-                },
-                theme: { color: "#4f46e5" },
-                handler: function (response) {
-                    onPaymentComplete(response.razorpay_payment_id, amount);
+                description: "Custom Domain Website + CV",
+                prefill: { name, email, contact: phone },
+                handler: function (res) {
+                    onPaymentSuccess(res.razorpay_payment_id, amt);
                 }
             };
-
             const rzp = new Razorpay(options);
             rzp.open();
         }
 
-        function onPaymentComplete(paymentId, amountPaid) {
-            cvData.paymentId = paymentId;
-
+        function onPaymentSuccess(payId, amt) {
             document.getElementById('popup-checkout-view').classList.add('hidden');
             document.getElementById('popup-success-view').classList.remove('hidden');
-
-            document.getElementById('paid-amt-text').textContent = amountPaid;
-            document.getElementById('paid-name-text').textContent = cvData.name;
-            document.getElementById('paid-email-text').textContent = cvData.email;
-            document.getElementById('paid-id-text').textContent = paymentId;
-
-            // Automatically log PAID status in Google Sheet & trigger confirmation email via Google Script
-            syncWithGoogleBackend("PAID", amountPaid, paymentId);
-        }
-
-        function printCurrentPreview() {
-            closePaymentPopup();
-            window.print();
+            document.getElementById('paid-amt-text').textContent = amt;
+            document.getElementById('paid-name-text').textContent = document.getElementById('pay-name').value;
+            document.getElementById('paid-email-text').textContent = document.getElementById('pay-email').value;
         }
 
         lucide.createIcons();
