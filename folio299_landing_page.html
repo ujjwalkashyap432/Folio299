@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folio299 — Turn Your PDF Resume Into a Live Website for ₹299</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter, Space Grotesk, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 5s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #09090b;
+            color: #f4f4f5;
+            overflow-x: hidden;
+        }
+        /* Subtle glowing grid background */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+        .glass-card {
+            background: rgba(24, 24, 27, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.35);
+        }
+    </style>
+</head>
+<body class="bg-grid antialiased selection:bg-emerald-500 selection:text-zinc-950">
+
+    <!-- Ambient Top Spotlight -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[90vw] max-w-4xl h-96 bg-emerald-500/10 blur-[130px] pointer-events-none -z-10 rounded-full"></div>
+    <div class="fixed top-60 right-10 w-72 h-72 bg-indigo-500/10 blur-[120px] pointer-events-none -z-10 rounded-full"></div>
+
+    <!-- 1. STICKY GLASSMORPHIC NAVBAR -->
+    <header class="sticky top-0 z-50 w-full border-b border-white/10 bg-zinc-950/75 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-indigo-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-zinc-950 stroke-[2.5]"></i>
+                </div>
+                <div class="flex items-center">
+                    <span class="font-display font-bold text-xl tracking-tight text-white">Folio</span>
+                    <span class="font-mono font-bold text-sm bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded-md ml-1">₹299</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                <a href="#how-it-works" class="hover:text-white transition-colors">How it Works</a>
+                <a href="#templates" class="hover:text-white transition-colors">Live Templates</a>
+                <a href="#pricing" class="hover:text-white transition-colors">Pricing & Add-ons</a>
+                <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <div class="flex items-center gap-3">
+                <button onclick="openCheckoutModal()" class="relative inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-zinc-950 bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 transition-all shadow-lg shadow-emerald-500/20 active:scale-95">
+                    <span>Get Yours @ ₹299</span>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 stroke-[2.5]"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION WITH INTERACTIVE BEFORE/AFTER -->
+    <section class="relative pt-10 pb-20 md:pt-16 md:pb-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            
+            <!-- Left Column: Copy & Conversion -->
+            <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                <!-- Pill Badge -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-white/10 text-xs sm:text-sm text-zinc-300 shadow-sm">
+                    <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="font-medium">⚡ 24-Hour Delivery • Hosted Forever • Zero Coding Needed</span>
+                </div>
+
+                <!-- Main Headline -->
+                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1]">
+                    Stop Sending Boring PDFs. Turn Your Resume Into a <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-indigo-400">Live Website for ₹299.</span>
+                </h1>
+
+                <!-- Subheadline -->
+                <p class="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                    Recruiters spend just <span class="text-zinc-200 font-semibold underline decoration-emerald-500/60">6 seconds</span> skimming a black-and-white PDF. Drop a live, mobile-ready personal website in your LinkedIn bio, cold emails, or WhatsApp applications and stand out immediately.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <button onclick="openCheckoutModal()" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-7 py-4 rounded-2xl font-bold text-base text-zinc-950 bg-emerald-400 hover:bg-emerald-300 transition-all glow-emerald hover:-translate-y-0.5 active:translate-y-0">
+                        <i data-lucide="upload-cloud" class="w-5 h-5 stroke-[2.2]"></i>
+                        <span>Upload CV & Claim @ ₹299</span>
+                    </button>
+                    <a href="#templates" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-semibold text-base text-zinc-200 bg-zinc-900/90 hover:bg-zinc-800 border border-white/10 transition-all">
+                        <i data-lucide="layout-template" class="w-5 h-5 text-indigo-400"></i>
+                        <span>Explore 3 Live Demos</span>
+                    </a>
+                </div>
+
+                <!-- Social Proof Micro-Bar -->
+                <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs sm:text-sm text-zinc-400 border-t border-white/5">
+                    <div class="flex items-center gap-2">
+                        <div class="flex -space-x-2">
+                            <img src="https://placehold.co/40x40/10b981/09090b?text=A" alt="User" class="w-7 h-7 rounded-full border-2 border-zinc-950">
+                            <img src="https://placehold.co/40x40/6366f1/ffffff?text=R" alt="User" class="w-7 h-7 rounded-full border-2 border-zinc-950">
+                            <img src="https://placehold.co/40x40/f59e0b/09090b?text=S" alt="User" class="w-7 h-7 rounded-full border-2 border-zinc-950">
+                        </div>
+                        <span><strong class="text-white">420+</strong> portfolios launched across India</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-emerald-400 font-medium">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                        <span>One-time payment • No monthly fees</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Before vs. After Switcher Card -->
+            <div class="lg:col-span-5">
+                <div class="glass-card rounded-3xl p-4 sm:p-6 shadow-2xl relative">
+                    <!-- Top Toggle Header -->
+                    <div class="flex items-center justify-between mb-4 bg-zinc-900/90 p-1.5 rounded-2xl border border-white/10">
+                        <button id="btn-before" onclick="toggleHeroCompare('before')" class="w-1/2 py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 text-zinc-400 hover:text-white">
+                            <i data-lucide="file-text" class="w-4 h-4"></i>
+                            <span>Boring Word PDF</span>
+                        </button>
+                        <button id="btn-after" onclick="toggleHeroCompare('after')" class="w-1/2 py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 bg-emerald-500 text-zinc-950 shadow-md">
+                            <i data-lucide="sparkles" class="w-4 h-4 fill-zinc-950"></i>
+                            <span>Your ₹299 Live Site</span>
+                        </button>
+                    </div>
+
+                    <!-- BEFORE VIEW: Dull Black & White MS Word CV -->
+                    <div id="hero-before-view" class="hidden bg-white text-zinc-900 rounded-2xl p-5 sm:p-6 h-[400px] overflow-hidden relative font-serif border border-zinc-300 shadow-inner">
+                        <div class="absolute top-3 right-3 bg-red-100 text-red-700 font-sans text-[11px] font-bold px-2.5 py-1 rounded-full border border-red-300">
+                            ❌ Ignored in 6 Seconds
+                        </div>
+                        <h3 class="text-lg font-bold uppercase tracking-wider border-b border-black pb-1">Aarav Sharma</h3>
+                        <p class="text-[11px] text-zinc-600 mt-1">Email: aarav.sharma99@email.com | Phone: +91 9876543210 | Location: Bengaluru</p>
+                        
+                        <div class="mt-4">
+                            <p class="text-xs font-bold uppercase underline">Objective</p>
+                            <p class="text-[11px] leading-normal mt-1 text-zinc-700">
+                                Hardworking graduate seeking an entry-level role in a reputed organization where I can utilize my skills and grow professionally.
+                            </p>
+                        </div>
+
+                        <div class="mt-4">
+                            <p class="text-xs font-bold uppercase underline">Work Experience</p>
+                            <p class="text-[11px] font-bold mt-1">Product & Growth Intern - FinTech Corp (2025 - Present)</p>
+                            <ul class="list-disc list-inside text-[11px] text-zinc-700 space-y-1 mt-1">
+                                <li>Assisted in user onboarding campaigns and analytics.</li>
+                                <li>Created weekly Excel reports for the marketing team.</li>
+                                <li>Coordinated with designers for social media assets.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-4">
+                            <p class="text-xs font-bold uppercase underline">Education & Skills</p>
+                            <p class="text-[11px] mt-1">B.Tech Computer Science — 8.4 CGPA</p>
+                            <p class="text-[11px] text-zinc-600 mt-0.5">Skills: MS Excel, Python, SQL, Communication, Teamwork</p>
+                        </div>
+
+                        <!-- Bottom overlay prompt -->
+                        <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-900 via-zinc-900/90 to-transparent flex items-end justify-center p-4 font-sans">
+                            <button onclick="toggleHeroCompare('after')" class="px-4 py-2 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs flex items-center gap-1.5 shadow-lg hover:scale-105 transition">
+                                <span>Transform into ₹299 Website</span>
+                                <i data-lucide="wand-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AFTER VIEW: Sleek Dark-Mode Interactive Portfolio -->
+                    <div id="hero-after-view" class="bg-zinc-950 border border-white/10 rounded-2xl p-5 h-[400px] flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute -top-16 -right-16 w-36 h-36 bg-emerald-500/20 blur-2xl rounded-full pointer-events-none"></div>
+
+                        <!-- Mini Browser URL Bar -->
+                        <div class="flex items-center justify-between bg-zinc-900/90 border border-white/10 px-3 py-1.5 rounded-xl text-xs">
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                            </div>
+                            <div class="flex items-center gap-1 font-mono text-[11px] text-emerald-400">
+                                <i data-lucide="lock" class="w-3 h-3"></i>
+                                <span>aaravsharma.folio299.in</span>
+                            </div>
+                            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">LIVE</span>
+                        </div>
+
+                        <!-- Profile Hero Inside Card -->
+                        <div class="my-auto space-y-3 pt-2">
+                            <div class="flex items-center gap-3.5">
+                                <div class="relative">
+                                    <img src="https://placehold.co/100x100/10b981/09090b?text=AS" alt="Aarav" class="w-14 h-14 rounded-2xl object-cover border-2 border-emerald-400/50">
+                                    <span class="absolute -bottom-1 -right-1 bg-emerald-500 text-zinc-950 text-[9px] font-bold px-1.5 py-0.2 rounded-full">OPEN TO WORK</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-display font-bold text-lg text-white leading-tight">Aarav Sharma</h4>
+                                    <p class="text-xs text-emerald-400 font-medium">Product Analyst & Growth Builder</p>
+                                    <p class="text-[11px] text-zinc-400 flex items-center gap-1 mt-0.5">
+                                        <i data-lucide="map-pin" class="w-3 h-3"></i> Bengaluru, India
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-zinc-300 leading-relaxed bg-zinc-900/70 p-3 rounded-xl border border-white/5">
+                                Scaling fintech onboarding funnels with SQL, Python & behavioral analytics. Built 3 live products used by 4,000+ students.
+                            </p>
+
+                            <!-- Skill Chips -->
+                            <div class="flex flex-wrap gap-1.5">
+                                <span class="text-[10px] font-mono bg-zinc-900 border border-white/10 px-2.5 py-1 rounded-lg text-zinc-300">⚡ Product Analytics</span>
+                                <span class="text-[10px] font-mono bg-zinc-900 border border-white/10 px-2.5 py-1 rounded-lg text-zinc-300">🐍 Python & SQL</span>
+                                <span class="text-[10px] font-mono bg-zinc-900 border border-white/10 px-2.5 py-1 rounded-lg text-zinc-300">📈 Funnel Growth</span>
+                            </div>
+
+                            <!-- Featured Metric Box -->
+                            <div class="grid grid-cols-2 gap-2 pt-1">
+                                <div class="bg-zinc-900/60 border border-white/5 p-2.5 rounded-xl">
+                                    <p class="text-[10px] text-zinc-400">FinTech Corp Intern</p>
+                                    <p class="text-xs font-bold text-white mt-0.5">+28% User Activation</p>
+                                </div>
+                                <div class="bg-zinc-900/60 border border-white/5 p-2.5 rounded-xl">
+                                    <p class="text-[10px] text-zinc-400">Academic Record</p>
+                                    <p class="text-xs font-bold text-white mt-0.5">8.4 CGPA • B.Tech CS</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 1-Click Recruiter Action Bar -->
+                        <div class="grid grid-cols-3 gap-2 pt-3 border-t border-white/10">
+                            <button onclick="showToast('Demo: Opens direct WhatsApp chat with candidate!')" class="flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-[11px] font-semibold transition">
+                                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                                <span>WhatsApp</span>
+                            </button>
+                            <button onclick="showToast('Demo: Triggers 1-click Email client!')" class="flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-white/10 text-[11px] font-semibold transition">
+                                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                                <span>Email Me</span>
+                            </button>
+                            <button onclick="showToast('Demo: Downloads original ATS PDF Resume!')" class="flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/30 text-[11px] font-semibold transition">
+                                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                                <span>PDF CV</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive caption -->
+                    <p class="text-center text-xs text-zinc-400 mt-3 flex items-center justify-center gap-1.5">
+                        <i data-lucide="mouse-pointer-click" class="w-3.5 h-3.5 text-emerald-400"></i>
+                        <span>Click the toggle above to see why recruiters love live links</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3. 3-STEP "HOW IT WORKS" SECTION -->
+    <section id="how-it-works" class="py-20 border-y border-white/5 bg-zinc-950/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="font-mono text-xs uppercase tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">Zero Tech Skills Needed</span>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-4">From Cluttered PDF to Live Link in 3 Simple Steps</h2>
+                <p class="text-zinc-400 mt-3 text-sm sm:text-base">You don't touch a single line of code or drag-and-drop builder. We build, optimize, and host everything for you.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+                <!-- Step 1 -->
+                <div class="glass-card rounded-3xl p-7 relative group hover:border-emerald-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                            <i data-lucide="file-up" class="w-6 h-6"></i>
+                        </div>
+                        <span class="font-mono text-3xl font-bold text-zinc-800 group-hover:text-emerald-500/30 transition-colors">01</span>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-2">Upload Your PDF Resume & Photo</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">
+                        Share your existing CV (PDF or Word), a clean profile picture, and your social links via WhatsApp or our intake form right after checkout.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-card rounded-3xl p-7 relative group hover:border-indigo-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                            <i data-lucide="palette" class="w-6 h-6"></i>
+                        </div>
+                        <span class="font-mono text-3xl font-bold text-zinc-800 group-hover:text-indigo-500/30 transition-colors">02</span>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-2">Pick Your Vibe</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">
+                        Choose from our 3 recruiter-tested design themes: <strong class="text-zinc-200">The Executive</strong> (MBA/Finance), <strong class="text-zinc-200">The Creator</strong> (Design/Marketing), or <strong class="text-zinc-200">The Tech</strong> (SDE/Engineering).
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-card rounded-3xl p-7 relative group hover:border-emerald-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-400">
+                            <i data-lucide="rocket" class="w-6 h-6"></i>
+                        </div>
+                        <span class="font-mono text-3xl font-bold text-zinc-800 group-hover:text-teal-500/30 transition-colors">03</span>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white mb-2">Go Live in 24 Hours</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">
+                        Receive your permanent, fast-loading link (<span class="font-mono text-xs text-emerald-400">yourname.folio299.in</span>) ready to paste on LinkedIn, Instagram bio, and job portals.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. INTERACTIVE LIVE TEMPLATE SWITCHER -->
+    <section id="templates" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <span class="font-mono text-xs uppercase tracking-widest text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full">Interactive Preview</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-4">3 Battle-Tested Templates. Pick Your Identity.</h2>
+            <p class="text-zinc-400 mt-3 text-sm sm:text-base">Click any tab below to preview how your resume data adapts to different industry aesthetics.</p>
+        </div>
+
+        <!-- Template Switcher Tabs -->
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
+            <button onclick="switchTemplate('executive')" id="tab-executive" class="template-tab px-5 py-3 rounded-2xl font-semibold text-sm flex items-center gap-2.5 transition-all bg-emerald-400 text-zinc-950 shadow-lg shadow-emerald-500/20">
+                <i data-lucide="briefcase" class="w-4 h-4"></i>
+                <span>The Executive / MBA</span>
+            </button>
+            <button onclick="switchTemplate('creator')" id="tab-creator" class="template-tab px-5 py-3 rounded-2xl font-semibold text-sm flex items-center gap-2.5 transition-all bg-zinc-900 text-zinc-300 hover:text-white border border-white/10">
+                <i data-lucide="flame" class="w-4 h-4 text-pink-400"></i>
+                <span>The Creator / Media</span>
+            </button>
+            <button onclick="switchTemplate('tech')" id="tab-tech" class="template-tab px-5 py-3 rounded-2xl font-semibold text-sm flex items-center gap-2.5 transition-all bg-zinc-900 text-zinc-300 hover:text-white border border-white/10">
+                <i data-lucide="terminal" class="w-4 h-4 text-emerald-400"></i>
+                <span>The Tech / Engineer</span>
+            </button>
+        </div>
+
+        <!-- Live Mock Browser Window -->
+        <div class="glass-card rounded-3xl overflow-hidden border border-white/15 shadow-2xl">
+            <!-- Browser Chrome Bar -->
+            <div class="bg-zinc-900/95 border-b border-white/10 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                    <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                    <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                </div>
+                <div class="flex items-center gap-2 bg-zinc-950 border border-white/10 px-4 py-1.5 rounded-xl text-xs font-mono text-zinc-300">
+                    <i data-lucide="globe" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span id="preview-url">rohanmehta.folio299.in</span>
+                </div>
+                <div>
+                    <button onclick="selectTemplateAndOrder()" class="text-xs font-bold px-3.5 py-1.5 rounded-lg bg-emerald-400 text-zinc-950 hover:bg-emerald-300 transition flex items-center gap-1">
+                        <span>Use This Template</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Viewport Container -->
+            <div id="template-viewport" class="p-6 sm:p-10 lg:p-12 transition-all duration-300 bg-gradient-to-br from-slate-950 via-zinc-900 to-slate-950">
+                <!-- Dynamic Content Injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. TRANSPARENT PRICING & SMART UPSELL CALCULATOR -->
+    <section id="pricing" class="py-20 border-t border-white/5 bg-zinc-950/70">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="font-mono text-xs uppercase tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">Pocket-Friendly Pricing</span>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-4">Cheaper Than a Weekend Pizza. Built for Your Career.</h2>
+                <p class="text-zinc-400 mt-3 text-sm sm:text-base">Start with our ₹299 base package or customize your launch with optional power-ups.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- Left Column: Base Plan Features (7 cols) -->
+                <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-8 border border-emerald-500/30 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-emerald-400 text-zinc-950 font-bold text-xs px-4 py-1 rounded-bl-2xl">
+                        MOST POPULAR
+                    </div>
+
+                    <div class="flex flex-wrap items-baseline justify-between gap-4 pb-6 border-b border-white/10">
+                        <div>
+                            <h3 class="font-display text-2xl font-bold text-white">Standard Resume-to-Web</h3>
+                            <p class="text-sm text-zinc-400 mt-1">Everything you need to impress hiring managers</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-zinc-500 line-through text-sm font-mono">₹1,499</span>
+                            <div class="font-display text-4xl font-extrabold text-emerald-400">₹299</div>
+                            <span class="text-[11px] text-zinc-400">One-time payment</span>
+                        </div>
+                    </div>
+
+                    <!-- Base Features List -->
+                    <div class="py-6 space-y-3.5 text-sm">
+                        <p class="text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">Included in ₹299 Base Plan:</p>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span class="text-zinc-200"><strong>Mobile & Desktop Optimized Website</strong> crafted from your PDF resume</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span class="text-zinc-200"><strong>Free Lifetime Hosting</strong> on fast global cloud servers (`name.folio299.in`)</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span class="text-zinc-200"><strong>1-Click Contact Buttons</strong> for WhatsApp, Email, LinkedIn & GitHub/Behance</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span class="text-zinc-200"><strong>Downloadable CV Button</strong> so HR can still grab your PDF copy anytime</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span class="text-zinc-200"><strong>Guaranteed 24-Hour Delivery</strong> straight to your WhatsApp & Email</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Add-on Checkboxes -->
+                    <div class="pt-6 border-t border-white/10 space-y-3">
+                        <p class="text-xs font-mono uppercase tracking-wider text-indigo-400">Optional Career Power-Ups (Click to Add):</p>
+
+                        <!-- Add-on 1 -->
+                        <label class="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/90 border border-white/10 hover:border-emerald-500/40 cursor-pointer transition select-none">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" id="calc-addon-domain" onchange="syncPricingCalculator('calc')" class="w-4 h-4 accent-emerald-400 rounded cursor-pointer">
+                                <div>
+                                    <p class="text-sm font-semibold text-white">Custom .in or .com Domain Setup</p>
+                                    <p class="text-xs text-zinc-400">Get `www.yourname.in` connected with free SSL for 1 year</p>
+                                </div>
+                            </div>
+                            <span class="font-mono text-sm font-bold text-emerald-400 ml-2">+₹999<span class="text-[10px] text-zinc-400">/yr</span></span>
+                        </label>
+
+                        <!-- Add-on 2 -->
+                        <label class="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/90 border border-white/10 hover:border-emerald-500/40 cursor-pointer transition select-none">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" id="calc-addon-ats" onchange="syncPricingCalculator('calc')" class="w-4 h-4 accent-emerald-400 rounded cursor-pointer">
+                                <div>
+                                    <p class="text-sm font-semibold text-white">ATS-Friendly PDF Resume Makeover</p>
+                                    <p class="text-xs text-zinc-400">We rewrite & format your actual PDF resume to beat HR bots</p>
+                                </div>
+                            </div>
+                            <span class="font-mono text-sm font-bold text-emerald-400 ml-2">+₹199</span>
+                        </label>
+
+                        <!-- Add-on 3 -->
+                        <label class="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/90 border border-white/10 hover:border-emerald-500/40 cursor-pointer transition select-none">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" id="calc-addon-express" onchange="syncPricingCalculator('calc')" class="w-4 h-4 accent-emerald-400 rounded cursor-pointer">
+                                <div>
+                                    <p class="text-sm font-semibold text-white">⚡ Priority 2-Hour Express Delivery</p>
+                                    <p class="text-xs text-zinc-400">Have an interview today? Skip the queue and go live in 120 mins</p>
+                                </div>
+                            </div>
+                            <span class="font-mono text-sm font-bold text-emerald-400 ml-2">+₹99</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Right Column: Live Order Summary Card (5 cols) -->
+                <div class="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-8 border border-white/10 sticky top-24">
+                    <h4 class="font-display text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="receipt" class="w-5 h-5 text-emerald-400"></i>
+                        <span>Live Package Summary</span>
+                    </h4>
+                    <p class="text-xs text-zinc-400 mt-1">Instant breakdown of your selected portfolio bundle</p>
+
+                    <div class="my-6 space-y-3 text-sm border-y border-white/10 py-5">
+                        <div class="flex items-center justify-between text-zinc-200">
+                            <span>Base Portfolio Website (24hr)</span>
+                            <span class="font-mono font-semibold">₹299</span>
+                        </div>
+                        <div id="summary-line-domain" class="hidden flex items-center justify-between text-emerald-300">
+                            <span>+ Custom .in/.com Domain (1 Yr)</span>
+                            <span class="font-mono font-semibold">₹999</span>
+                        </div>
+                        <div id="summary-line-ats" class="hidden flex items-center justify-between text-emerald-300">
+                            <span>+ ATS Resume PDF Makeover</span>
+                            <span class="font-mono font-semibold">₹199</span>
+                        </div>
+                        <div id="summary-line-express" class="hidden flex items-center justify-between text-emerald-300">
+                            <span>+ 2-Hour Express Delivery</span>
+                            <span class="font-mono font-semibold">₹99</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-baseline justify-between mb-6">
+                        <span class="text-sm font-medium text-zinc-400">Total Payable Today</span>
+                        <span id="calc-total-price" class="font-display text-4xl font-extrabold text-white">₹299</span>
+                    </div>
+
+                    <button onclick="openCheckoutModal()" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 text-zinc-950 font-bold text-base shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all active:scale-95">
+                        <span>Claim My Website Now</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5 stroke-[2.5]"></i>
+                    </button>
+
+                    <div class="mt-4 flex items-center justify-center gap-4 text-[11px] text-zinc-400">
+                        <span class="flex items-center gap-1"><i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-400"></i> GPay / PhonePe / Paytm</span>
+                        <span class="flex items-center gap-1"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i> 100% Satisfaction</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. FAQ ACCORDION SECTION -->
+    <section id="faq" class="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="font-mono text-xs uppercase tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">Got Questions?</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-4">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="space-y-4">
+            <!-- FAQ Item 1 -->
+            <div class="glass-card rounded-2xl border border-white/10 overflow-hidden">
+                <button onclick="toggleFaq(0)" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-white/[0.02] transition">
+                    <span class="font-display font-semibold text-base sm:text-lg text-white">Are there any hidden monthly hosting charges after ₹299?</span>
+                    <i data-lucide="chevron-down" id="faq-icon-0" class="w-5 h-5 text-zinc-400 transition-transform duration-200"></i>
+                </button>
+                <div id="faq-content-0" class="px-6 pb-5 text-sm text-zinc-400 leading-relaxed">
+                    Zero! The ₹299 base package is a strict one-time fee. Your portfolio is hosted forever on our fast global cloud network under your free subdomain (<code class="text-emerald-400">yourname.folio299.in</code>). You only pay yearly if you choose the optional <code class="text-zinc-200">.in</code> or <code class="text-zinc-200">.com</code> custom domain add-on.
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="glass-card rounded-2xl border border-white/10 overflow-hidden">
+                <button onclick="toggleFaq(1)" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-white/[0.02] transition">
+                    <span class="font-display font-semibold text-base sm:text-lg text-white">How do I send my PDF Resume and profile photo?</span>
+                    <i data-lucide="chevron-down" id="faq-icon-1" class="w-5 h-5 text-zinc-400 transition-transform duration-200"></i>
+                </button>
+                <div id="faq-content-1" class="hidden px-6 pb-5 text-sm text-zinc-400 leading-relaxed">
+                    Once you click "Claim My Website Now" and submit your details, our 1-click WhatsApp checkout opens a direct chat with our onboarding team. You simply attach your PDF/Word resume and photo right inside WhatsApp—takes less than 30 seconds!
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="glass-card rounded-2xl border border-white/10 overflow-hidden">
+                <button onclick="toggleFaq(2)" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-white/[0.02] transition">
+                    <span class="font-display font-semibold text-base sm:text-lg text-white">What if I get a new job or want to update my website later?</span>
+                    <i data-lucide="chevron-down" id="faq-icon-2" class="w-5 h-5 text-zinc-400 transition-transform duration-200"></i>
+                </button>
+                <div id="faq-content-2" class="hidden px-6 pb-5 text-sm text-zinc-400 leading-relaxed">
+                    Minor text corrections within the first 7 days of delivery are 100% free. Whenever you switch jobs, add new projects, or earn certifications months later, just message us on WhatsApp for a quick refresh or request raw GitHub code access anytime.
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="glass-card rounded-2xl border border-white/10 overflow-hidden">
+                <button onclick="toggleFaq(3)" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-white/[0.02] transition">
+                    <span class="font-display font-semibold text-base sm:text-lg text-white">I am a college fresher with no work experience. Will my site still look good?</span>
+                    <i data-lucide="chevron-down" id="faq-icon-3" class="w-5 h-5 text-zinc-400 transition-transform duration-200"></i>
+                </button>
+                <div id="faq-content-3" class="hidden px-6 pb-5 text-sm text-zinc-400 leading-relaxed">
+                    Absolutely! Over 60% of our users are students and freshers. Instead of empty work history, we spotlight your academic projects, hackathons, certifications, societies, and skills so recruiters see your potential immediately.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. FOOTER -->
+    <footer class="border-t border-white/10 bg-zinc-950 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-400 to-indigo-600 flex items-center justify-center">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-zinc-950 stroke-[2.5]"></i>
+                </div>
+                <span class="font-display font-bold text-lg text-white">Folio299</span>
+                <span class="text-xs text-zinc-500 ml-2">Built for Indian Students, Creators & Professionals 🇮🇳</span>
+            </div>
+            <div class="flex items-center gap-6 text-xs text-zinc-400">
+                <a href="#how-it-works" class="hover:text-white transition">How It Works</a>
+                <a href="#templates" class="hover:text-white transition">Templates</a>
+                <a href="#pricing" class="hover:text-white transition">Pricing</a>
+                <button onclick="openCheckoutModal()" class="text-emerald-400 font-semibold hover:underline">Order Now @ ₹299</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INSTANT ORDER / WHATSAPP CHECKOUT MODAL -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass-card w-full max-w-lg rounded-3xl border border-white/15 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[92vh] flex flex-col">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-zinc-900/90 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    <h3 class="font-display font-bold text-lg text-white">Launch Your Portfolio Website</h3>
+                </div>
+                <button onclick="closeCheckoutModal()" class="p-1.5 rounded-xl bg-zinc-800 text-zinc-400 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-6 overflow-y-auto space-y-4 text-sm">
+                <div class="grid sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-xs font-medium text-zinc-400 mb-1">Your Full Name *</label>
+                        <input type="text" id="order-name" placeholder="e.g., Rohan Mehta" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-zinc-400 mb-1">WhatsApp Number *</label>
+                        <input type="tel" id="order-phone" placeholder="e.g., 9876543210" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-400">
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-xs font-medium text-zinc-400 mb-1">Email Address *</label>
+                        <input type="email" id="order-email" placeholder="you@example.com" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-zinc-400 mb-1">Choose Template Vibe *</label>
+                        <select id="order-template" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white focus:outline-none focus:border-emerald-400">
+                            <option value="The Executive / MBA">💼 The Executive / MBA</option>
+                            <option value="The Creator / Media">🎨 The Creator / Media</option>
+                            <option value="The Tech / Engineer">💻 The Tech / Engineer</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Add-ons inside Modal (Synced with Page Calculator) -->
+                <div class="pt-2">
+                    <label class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">Customize Add-Ons:</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center justify-between p-2.5 rounded-xl bg-zinc-900/80 border border-white/10 cursor-pointer">
+                            <span class="flex items-center gap-2.5 text-xs text-zinc-200">
+                                <input type="checkbox" id="modal-addon-domain" onchange="syncPricingCalculator('modal')" class="w-4 h-4 accent-emerald-400 rounded">
+                                <span>Custom .in / .com Domain Setup (1 Year)</span>
+                            </span>
+                            <span class="font-mono text-xs font-bold text-emerald-400">+₹999</span>
+                        </label>
+                        <label class="flex items-center justify-between p-2.5 rounded-xl bg-zinc-900/80 border border-white/10 cursor-pointer">
+                            <span class="flex items-center gap-2.5 text-xs text-zinc-200">
+                                <input type="checkbox" id="modal-addon-ats" onchange="syncPricingCalculator('modal')" class="w-4 h-4 accent-emerald-400 rounded">
+                                <span>ATS-Friendly PDF Resume Makeover</span>
+                            </span>
+                            <span class="font-mono text-xs font-bold text-emerald-400">+₹199</span>
+                        </label>
+                        <label class="flex items-center justify-between p-2.5 rounded-xl bg-zinc-900/80 border border-white/10 cursor-pointer">
+                            <span class="flex items-center gap-2.5 text-xs text-zinc-200">
+                                <input type="checkbox" id="modal-addon-express" onchange="syncPricingCalculator('modal')" class="w-4 h-4 accent-emerald-400 rounded">
+                                <span>⚡ Priority 2-Hour Express Delivery</span>
+                            </span>
+                            <span class="font-mono text-xs font-bold text-emerald-400">+₹99</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Total Bar inside Modal -->
+                <div class="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-emerald-300 font-medium">Total Payable Amount</p>
+                        <p class="text-[11px] text-zinc-400">Share your PDF Resume on WhatsApp next</p>
+                    </div>
+                    <span id="modal-total-price" class="font-display text-3xl font-extrabold text-emerald-400">₹299</span>
+                </div>
+
+                <!-- Inline Validation Feedback -->
+                <p id="modal-error" class="hidden text-xs text-rose-400 text-center font-medium"></p>
+
+                <!-- Action Buttons: WhatsApp & Mock Razorpay/UPI -->
+                <div class="space-y-2.5 pt-1">
+                    <button onclick="submitViaWhatsApp()" class="w-full py-3.5 px-5 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-zinc-950 font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition active:scale-95">
+                        <i data-lucide="message-circle" class="w-5 h-5 stroke-[2.2]"></i>
+                        <span>Pay & Submit CV via WhatsApp</span>
+                    </button>
+
+                    <button onclick="triggerMockUPI()" class="w-full py-3 px-5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-white/10 font-semibold text-xs flex items-center justify-center gap-2 transition">
+                        <i data-lucide="qr-code" class="w-4 h-4 text-indigo-400"></i>
+                        <span>Instant Pay via UPI / Razorpay Checkout</span>
+                    </button>
+                </div>
+
+                <!-- Mock UPI QR Drawer (Hidden until clicked) -->
+                <div id="upi-drawer" class="hidden p-4 rounded-2xl bg-zinc-900 border border-indigo-500/40 text-center space-y-2">
+                    <p class="text-xs font-semibold text-indigo-300"> Instant UPI Payment Gateway Ready</p>
+                    <p class="text-[11px] text-zinc-400">Pay <strong id="upi-amount-label" class="text-white">₹299</strong> to UPI ID: <code class="text-emerald-400 bg-zinc-950 px-2 py-0.5 rounded">folio299@upi</code> and click the WhatsApp button above to send your screenshot & PDF resume!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-zinc-900 border border-emerald-500/40 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-medium">
+        <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
+        <span id="toast-msg">Notification</span>
+    </div>
+
+    <!-- APPLICATION JAVASCRIPT -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // State tracking
+        let activeTemplate = 'executive';
+        const BASE_PRICE = 299;
+
+        // 1. Hero Before vs After Toggle
+        function toggleHeroCompare(mode) {
+            const beforeView = document.getElementById('hero-before-view');
+            const afterView = document.getElementById('hero-after-view');
+            const btnBefore = document.getElementById('btn-before');
+            const btnAfter = document.getElementById('btn-after');
+
+            if (mode === 'before') {
+                beforeView.classList.remove('hidden');
+                afterView.classList.add('hidden');
+                btnBefore.className = "w-1/2 py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 bg-white text-zinc-950 shadow-md";
+                btnAfter.className = "w-1/2 py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 text-zinc-400 hover:text-white";
+            } else {
+                beforeView.classList.add('hidden');
+                afterView.classList.remove('hidden');
+                btnAfter.className = "w-1/2 py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 bg-emerald-500 text-zinc-950 shadow-md";
+                btnBefore.className = "w-1/2 py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 text-zinc-400 hover:text-white";
+            }
+        }
+
+        // 2. Live Template Data & Switcher
+        const templatesData = {
+            executive: {
+                url: 'rohanmehta.folio299.in',
+                selectValue: 'The Executive / MBA',
+                bgClass: 'p-6 sm:p-10 lg:p-12 transition-all duration-300 bg-gradient-to-br from-slate-950 via-zinc-900 to-slate-950 font-sans',
+                html: `
+                    <div class="max-w-4xl mx-auto space-y-8">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-white/10">
+                            <div class="flex items-center gap-4">
+                                <img src="https://placehold.co/120x120/fbbf24/09090b?text=RM" alt="Rohan" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border-2 border-amber-400/50 shadow-lg">
+                                <div>
+                                    <span class="text-[11px] font-mono uppercase tracking-widest text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">MBA Candidate • IIM Kozhikode</span>
+                                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1.5">Rohan Mehta</h3>
+                                    <p class="text-sm text-zinc-400">Strategy & Management Consulting | Ex-Deloitte Analyst</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2.5">
+                                <button onclick="showToast('Demo: Connects via WhatsApp!')" class="px-4 py-2.5 rounded-xl bg-amber-400 text-zinc-950 font-bold text-xs flex items-center gap-1.5">
+                                    <span>Schedule Coffee Chat</span>
+                                </button>
+                                <button onclick="showToast('Demo: Downloads PDF CV!')" class="px-4 py-2.5 rounded-xl bg-zinc-800 text-zinc-200 font-semibold text-xs border border-white/10">
+                                    <span>Download CV</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-3 gap-4">
+                            <div class="bg-zinc-900/80 border border-white/10 p-4 rounded-2xl">
+                                <p class="text-xs text-zinc-400">Cost Optimization Impact</p>
+                                <p class="font-display text-2xl font-bold text-amber-400 mt-1">$1.4M Saved</p>
+                                <p class="text-[11px] text-zinc-500 mt-0.5">Across 3 FMCG supply chain clients</p>
+                            </div>
+                            <div class="bg-zinc-900/80 border border-white/10 p-4 rounded-2xl">
+                                <p class="text-xs text-zinc-400">National Case Competitions</p>
+                                <p class="font-display text-2xl font-bold text-white mt-1">3x Podium Finishes</p>
+                                <p class="text-[11px] text-zinc-500 mt-0.5">Top 1% among 14,000+ teams</p>
+                            </div>
+                            <div class="bg-zinc-900/80 border border-white/10 p-4 rounded-2xl">
+                                <p class="text-xs text-zinc-400">Core Competencies</p>
+                                <p class="font-display text-sm font-bold text-zinc-200 mt-2">Financial Modeling • GTM Strategy • M&A Due Diligence</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-400">Selected Work Experience</h4>
+                            <div class="p-4 rounded-2xl bg-zinc-900/50 border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                <div>
+                                    <p class="font-semibold text-white text-sm">Summer Associate — BCG (Boston Consulting Group)</p>
+                                    <p class="text-xs text-zinc-400 mt-0.5">Designed rural distribution roadmap for a leading Indian EV two-wheeler OEM.</p>
+                                </div>
+                                <span class="text-xs font-mono text-amber-400 shrink-0">Apr 2026 – Jun 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            creator: {
+                url: 'kritiverma.folio299.in',
+                selectValue: 'The Creator / Media',
+                bgClass: 'p-6 sm:p-10 lg:p-12 transition-all duration-300 bg-gradient-to-br from-fuchsia-950/60 via-zinc-950 to-indigo-950/60 font-sans',
+                html: `
+                    <div class="max-w-4xl mx-auto space-y-8">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                            <div class="flex items-center gap-4">
+                                <img src="https://placehold.co/120x120/ec4899/ffffff?text=KV" alt="Kriti" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-pink-400 shadow-lg shadow-pink-500/20">
+                                <div>
+                                    <span class="text-[11px] font-bold uppercase tracking-wider text-pink-300 bg-pink-500/20 px-3 py-0.5 rounded-full">✨ Brand Strategist & UI/UX Designer</span>
+                                    <h3 class="font-display text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-pink-200 to-indigo-300 mt-1">Kriti Verma</h3>
+                                    <p class="text-sm text-zinc-300">Crafting scroll-stopping D2C brand identities & high-converting mobile apps</p>
+                                </div>
+                            </div>
+                            <button onclick="showToast('Demo: Opens WhatsApp inquiry!')" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-pink-500 to-indigo-500 text-white font-bold text-xs shadow-lg shadow-pink-500/25">
+                                Let's Collaborate 💬
+                            </button>
+                        </div>
+
+                        <div class="grid sm:grid-cols-3 gap-4">
+                            <div class="rounded-2xl p-5 bg-white/5 border border-pink-500/20 hover:border-pink-400/50 transition">
+                                <span class="text-[10px] font-mono text-pink-300 uppercase">Case Study 01</span>
+                                <h4 class="font-display font-bold text-white text-base mt-1">Minimalist Skincare App</h4>
+                                <p class="text-xs text-zinc-400 mt-1">Redesigned checkout flow resulting in +34% repeat cart conversions.</p>
+                            </div>
+                            <div class="rounded-2xl p-5 bg-white/5 border border-indigo-500/20 hover:border-indigo-400/50 transition">
+                                <span class="text-[10px] font-mono text-indigo-300 uppercase">Case Study 02</span>
+                                <h4 class="font-display font-bold text-white text-base mt-1">2.4M+ Organic Reels</h4>
+                                <p class="text-xs text-zinc-400 mt-1">Led short-form visual storytelling for 4 Shark Tank India D2C brands.</p>
+                            </div>
+                            <div class="rounded-2xl p-5 bg-white/5 border border-purple-500/20 hover:border-purple-400/50 transition">
+                                <span class="text-[10px] font-mono text-purple-300 uppercase">Design Stack</span>
+                                <h4 class="font-display font-bold text-white text-base mt-1">Figma • Framer • Adobe CC</h4>
+                                <p class="text-xs text-zinc-400 mt-1">Design Systems, Prototyping, Motion Graphics & Brand Kits.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            tech: {
+                url: 'devansh-codes.folio299.in',
+                selectValue: 'The Tech / Engineer',
+                bgClass: 'p-6 sm:p-10 lg:p-12 transition-all duration-300 bg-zinc-950 font-mono',
+                html: `
+                    <div class="max-w-4xl mx-auto space-y-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-emerald-500/20 pb-5">
+                            <div>
+                                <div class="flex items-center gap-2 text-emerald-400 text-xs">
+                                    <span>$ whoami</span>
+                                    <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10px]">SDE-1 @ Bengaluru</span>
+                                </div>
+                                <h3 class="text-2xl sm:text-3xl font-bold text-white mt-1">Devansh Kulkarni</h3>
+                                <p class="text-xs text-zinc-400 mt-1">Full-Stack Engineer (Go, Next.js, PostgreSQL, Docker) • 900+ LeetCode</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="showToast('Demo: Opens GitHub Profile!')" class="px-3.5 py-2 rounded-xl bg-zinc-900 border border-emerald-500/40 text-emerald-400 text-xs hover:bg-emerald-500/10">
+                                    github.com/devansh
+                                </button>
+                                <button onclick="showToast('Demo: Opens WhatsApp!')" class="px-3.5 py-2 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs">
+                                    Hire_Me.sh
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-2xl bg-zinc-900/90 border border-white/10">
+                                <div class="flex items-center justify-between text-xs text-emerald-400 mb-1">
+                                    <span>📦 HyperScale-Queue</span>
+                                    <span>★ 410 Stars</span>
+                                </div>
+                                <p class="text-xs text-zinc-300 font-sans">Distributed job scheduler written in Golang & Redis handling 15k jobs/sec with zero-downtime retries.</p>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-zinc-900/90 border border-white/10">
+                                <div class="flex items-center justify-between text-xs text-emerald-400 mb-1">
+                                    <span>⚡ AI-SQL-Copilot</span>
+                                    <span>Live App</span>
+                                </div>
+                                <p class="text-xs text-zinc-300 font-sans">Natural language to Postgres query generator built with Next.js, TypeScript & Gemini API.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-zinc-900/60 border border-white/5 text-xs text-zinc-400 flex flex-wrap items-center justify-between gap-2">
+                            <span><strong class="text-emerald-400">Languages:</strong> TypeScript, Go, Python, C++, SQL</span>
+                            <span><strong class="text-emerald-400">Infra:</strong> AWS, Docker, Vercel, Linux</span>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function switchTemplate(key) {
+            activeTemplate = key;
+            const data = templatesData[key];
+
+            // Update URL and Viewport
+            document.getElementById('preview-url').textContent = data.url;
+            const viewport = document.getElementById('template-viewport');
+            viewport.className = data.bgClass;
+            viewport.innerHTML = data.html;
+
+            // Update Tab Styles
+            const tabs = ['executive', 'creator', 'tech'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === key) {
+                    btn.className = "template-tab px-5 py-3 rounded-2xl font-semibold text-sm flex items-center gap-2.5 transition-all bg-emerald-400 text-zinc-950 shadow-lg shadow-emerald-500/20";
+                } else {
+                    btn.className = "template-tab px-5 py-3 rounded-2xl font-semibold text-sm flex items-center gap-2.5 transition-all bg-zinc-900 text-zinc-300 hover:text-white border border-white/10";
+                }
+            });
+
+            // Sync dropdown in modal
+            document.getElementById('order-template').value = data.selectValue;
+        }
+
+        function selectTemplateAndOrder() {
+            const data = templatesData[activeTemplate];
+            document.getElementById('order-template').value = data.selectValue;
+            openCheckoutModal();
+        }
+
+        // 3. Synchronized Pricing & Upsell Calculator (Page + Modal)
+        function syncPricingCalculator(source) {
+            const calcDomain = document.getElementById('calc-addon-domain');
+            const calcAts = document.getElementById('calc-addon-ats');
+            const calcExpress = document.getElementById('calc-addon-express');
+
+            const modalDomain = document.getElementById('modal-addon-domain');
+            const modalAts = document.getElementById('modal-addon-ats');
+            const modalExpress = document.getElementById('modal-addon-express');
+
+            if (source === 'calc') {
+                modalDomain.checked = calcDomain.checked;
+                modalAts.checked = calcAts.checked;
+                modalExpress.checked = calcExpress.checked;
+            } else {
+                calcDomain.checked = modalDomain.checked;
+                calcAts.checked = modalAts.checked;
+                calcExpress.checked = modalExpress.checked;
+            }
+
+            let total = BASE_PRICE;
+            if (calcDomain.checked) total += 999;
+            if (calcAts.checked) total += 199;
+            if (calcExpress.checked) total += 99;
+
+            // Toggle line items in summary card
+            document.getElementById('summary-line-domain').classList.toggle('hidden', !calcDomain.checked);
+            document.getElementById('summary-line-ats').classList.toggle('hidden', !calcAts.checked);
+            document.getElementById('summary-line-express').classList.toggle('hidden', !calcExpress.checked);
+
+            // Update Total Displays
+            document.getElementById('calc-total-price').textContent = `₹${total}`;
+            document.getElementById('modal-total-price').textContent = `₹${total}`;
+            document.getElementById('upi-amount-label').textContent = `₹${total}`;
+
+            return total;
+        }
+
+        // 4. Checkout Modal Controls & WhatsApp Pre-filled Order Generator
+        function openCheckoutModal() {
+            document.getElementById('checkout-modal').classList.remove('hidden');
+            document.getElementById('modal-error').classList.add('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function getSelectedOrderDetails() {
+            const name = document.getElementById('order-name').value.trim();
+            const phone = document.getElementById('order-phone').value.trim();
+            const email = document.getElementById('order-email').value.trim();
+            const template = document.getElementById('order-template').value;
+            const total = syncPricingCalculator('modal');
+
+            const addons = [];
+            if (document.getElementById('modal-addon-domain').checked) addons.push('Custom .in/.com Domain (+₹999)');
+            if (document.getElementById('modal-addon-ats').checked) addons.push('ATS PDF Resume Makeover (+₹199)');
+            if (document.getElementById('modal-addon-express').checked) addons.push('2-Hour Express Delivery (+₹99)');
+
+            return { name, phone, email, template, addons, total };
+        }
+
+        function submitViaWhatsApp() {
+            const details = getSelectedOrderDetails();
+            const errorEl = document.getElementById('modal-error');
+
+            if (!details.name || !details.phone) {
+                errorEl.textContent = "Please enter your Name and WhatsApp Number to continue.";
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            errorEl.classList.add('hidden');
+
+            const addonText = details.addons.length > 0 ? details.addons.join(', ') : 'None (Base ₹299 Plan)';
+            const message = `Hi Folio299 Team! 🚀 I want to convert my Resume into a Live Portfolio Website.\n\n` +
+                            `*Name:* ${details.name}\n` +
+                            `*Phone:* ${details.phone}\n` +
+                            `*Email:* ${details.email || 'Not provided'}\n` +
+                            `*Selected Template:* ${details.template}\n` +
+                            `*Add-ons:* ${addonText}\n` +
+                            `*Total Package Price:* ₹${details.total}\n\n` +
+                            `I am attaching my PDF Resume and profile photo right here. Please share the payment link!`;
+
+            // Replace 919876543210 with your actual business WhatsApp number when deploying!
+            const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function triggerMockUPI() {
+            const drawer = document.getElementById('upi-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        // 5. FAQ Accordion Logic
+        function toggleFaq(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            const isHidden = content.classList.contains('hidden');
+
+            content.classList.toggle('hidden', !isHidden);
+            icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // 6. Custom Toast Helper (No browser alert)
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.classList.remove('hidden');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Initialize Default Template on Window Load
+        window.onload = function() {
+            switchTemplate('executive');
+        };
+    </script>
+</body>
+</html>
