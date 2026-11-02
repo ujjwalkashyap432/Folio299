@@ -1,497 +1,190 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Folio299 — Upload Your CV & See Your Live Website Instantly</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050811; color: #f8fafc; }
-        .font-serif-exec { font-family: 'Playfair Display', serif; }
-        .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
-        .glass { background: rgba(15, 23, 42, 0.78); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); }
-        .gradient-text { background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CV Theme Studio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Serif+4:wght@400;600;700&family=Nunito:wght@400;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f3f2ee;--panel:#fff;--ink:#1d1f24;--mute:#60646c;--line:#dcdad3;--btn:#1d1f24;--btnt:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17181b;--panel:#202226;--ink:#ecebe7;--mute:#a1a4ab;--line:#33363c;--btn:#ecebe7;--btnt:#17181b}}
+*,*:before,*:after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
+.wrap{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:24px;max-width:1200px;margin:0 auto;padding:20px}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}}
+h1{font-size:22px;margin:0 0 4px}
+.sub{color:var(--mute);margin:0 0 16px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+.panel h2{font-size:15px;margin:0 0 10px}
+label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
+input[type=text],textarea,select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:84px;resize:vertical}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid #3b6fd8;outline-offset:2px}
+.drop{border:1.5px dashed var(--line);border-radius:8px;padding:10px;font-size:13px;color:var(--mute)}
+.sw{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.sw label{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px}
+.sw input{width:48px;height:36px;padding:0;border:1px solid var(--line);border-radius:6px;background:none}
+button{font:inherit;font-weight:600;background:var(--btn);color:var(--btnt);border:0;border-radius:6px;padding:9px 14px;cursor:pointer}
+.gap{background:var(--bg);border-radius:8px;padding:10px 12px;font-size:13px}
+.gap b{display:block;margin-bottom:4px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:1px 9px;margin:2px 3px 2px 0;font-size:12px}
+.note{font-size:12px;color:var(--mute);margin-top:8px}
+/* CV paper */
+.paper{--p:#0b5cab;--a:#f2a900;--s:#eef4fb;--k:#10243a;--on:#fff;--f:'Space Grotesk',system-ui,sans-serif;
+background:#fff;color:var(--k);font-family:var(--f);border:1px solid var(--line);border-radius:4px;overflow:hidden;max-width:780px;margin:0 auto;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.paper header{background:var(--p);color:var(--on);padding:30px 34px 24px;border-bottom:6px solid var(--a)}
+.paper header h3{margin:0;font-size:32px;line-height:1.1;letter-spacing:-.01em}
+.paper header p{margin:6px 0 0;font-size:16px;opacity:.92}
+.paper .for{display:inline-block;margin-top:14px;background:var(--a);color:var(--k);font-size:13px;font-weight:700;padding:3px 10px;border-radius:3px}
+.paper .body{display:grid;grid-template-columns:1fr 210px;gap:0}
+@media(max-width:620px){.paper .body{grid-template-columns:1fr}}
+.paper main{padding:24px 34px}
+.paper aside{background:var(--s);padding:24px 22px}
+.paper h4{margin:0 0 8px;font-size:15px;color:var(--p);border-bottom:2px solid var(--a);padding-bottom:4px}
+.paper section{margin-bottom:22px}
+.paper section p,.paper li{font-size:14px;line-height:1.55}
+.paper ul{padding-left:18px;margin:0}
+.paper li{margin-bottom:6px}
+.chip{display:inline-block;font-size:13px;padding:2px 9px;margin:0 4px 6px 0;border-radius:3px;background:#fff;border:1px solid var(--p);color:var(--k)}
+.chip.m{background:var(--p);color:var(--on)}
+.actions{display:flex;gap:8px;justify-content:center;margin:0 0 12px;flex-wrap:wrap}
+@media print{body{background:#fff}.wrap{display:block;padding:0}.left,.actions{display:none}.paper{border:0;box-shadow:none;max-width:none}.paper header,.chip.m{-webkit-print-color-adjust:exact;print-color-adjust:exact}.paper aside{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
 </head>
-<body class="min-h-screen selection:bg-indigo-500 selection:text-white">
+<body>
+<div class="wrap">
+<div class="left">
+  <h1>CV Theme Studio</h1>
+  <p class="sub">Add your details and company screenshots. The CV takes on the company’s look.</p>
 
-    <!-- Top Navbar -->
-    <nav class="sticky top-0 z-40 glass border-b border-slate-800/80">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-black text-white text-sm shadow-md">F</div>
-                <span class="font-extrabold text-lg tracking-tight">Folio<span class="text-indigo-400">299</span></span>
-            </div>
-            <div>
-                <label for="cv-upload-input" class="cursor-pointer px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-semibold text-white transition shadow-lg shadow-indigo-600/25 flex items-center gap-1.5">
-                    <i data-lucide="upload" class="w-4 h-4"></i>
-                    <span>Upload CV</span>
-                </label>
-            </div>
-        </div>
-    </nav>
+  <div class="panel">
+    <h2>1. Your details</h2>
+    <label for="name">Name</label><input type="text" id="name" value="Aarav Sharma">
+    <label for="title">Headline</label><input type="text" id="title" value="Video editor and content writer">
+    <label for="summary">Summary</label><textarea id="summary">Journalism graduate who edits and writes short-form video for young audiences on social and economic topics.</textarea>
+    <label for="skills">Skills (comma separated)</label><input type="text" id="skills" value="Video editing, Premiere Pro, Storytelling, Research, Hindi, English">
+    <label for="exp">Experience (one point per line)</label>
+    <textarea id="exp">Edited 40+ explainer videos on Indian economy for a YouTube channel
+Wrote scripts and research notes for weekly news shows
+Managed Instagram page and grew it using reels and analytics
+Interned as a reporter covering local politics</textarea>
+  </div>
 
-    <!-- HERO SECTION -->
-    <section class="relative pt-10 pb-16 px-4 sm:px-6 overflow-hidden">
-        <div class="absolute top-6 left-1/2 -translate-x-1/2 w-[520px] h-[280px] bg-indigo-600/20 blur-[130px] rounded-full pointer-events-none"></div>
-
-        <div class="max-w-4xl mx-auto text-center space-y-5 relative z-10">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>Instant AI Resume-to-Website Converter</span>
-            </div>
-
-            <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
-                Drop Your CV & Preview Your <br class="hidden sm:block" />
-                <span class="gradient-text">Personal Website Instantly.</span>
-            </h1>
-
-            <p class="text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto">
-                Upload your PDF or Word resume below. Switch between <strong>Executive</strong>, <strong>Creator</strong>, and <strong>Tech</strong> master styles, then click Download Your Webpage CV when you're ready!
-            </p>
-
-            <!-- UPLOAD BOX -->
-            <div class="max-w-2xl mx-auto mt-6">
-                <div class="relative rounded-3xl border-2 border-dashed border-indigo-500/50 hover:border-indigo-400 bg-slate-900/70 p-8 sm:p-10 transition-all cursor-pointer group shadow-2xl">
-                    <input type="file" id="cv-upload-input" accept=".pdf,.docx,.doc,.txt" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" />
-                    
-                    <div id="upload-idle" class="space-y-4">
-                        <div class="w-16 h-16 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center mx-auto group-hover:scale-110 transition">
-                            <i data-lucide="file-text" class="w-8 h-8 text-indigo-400"></i>
-                        </div>
-                        <div>
-                            <p class="text-base sm:text-xl font-extrabold text-white">
-                                Drop your CV here (<span class="text-indigo-400">PDF / Word</span>) or <span class="underline text-indigo-400">Browse</span>
-                            </p>
-                            <p class="text-xs text-slate-400 mt-1">Instantly builds a premium pre-styled website</p>
-                        </div>
-                        <div class="pt-2">
-                            <button type="button" onclick="loadSampleCV(event)" class="relative z-30 px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-indigo-300 border border-slate-700 transition">
-                                ⚡ Click here to test with a Sample CV
-                            </button>
-                        </div>
-                    </div>
-
-                    <div id="upload-loading" class="hidden py-6 space-y-3">
-                        <div class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                        <p class="text-base font-bold text-indigo-300">Building your premium website...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- LIVE WEBSITE PREVIEW SECTION -->
-    <section id="live-website-section" class="hidden pb-24 px-3 sm:px-6 scroll-mt-20">
-        <div class="max-w-5xl mx-auto space-y-5">
-
-            <!-- Theme Switcher Bar -->
-            <div class="p-4 rounded-2xl bg-slate-900/95 border border-indigo-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 sticky top-16 z-30 backdrop-blur-md">
-                <span class="text-xs font-bold text-slate-300">Choose Master Theme Style:</span>
-                <div class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
-                    <button onclick="setWebsiteTheme('executive')" id="btn-theme-executive" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">Executive</button>
-                    <button onclick="setWebsiteTheme('creator')" id="btn-theme-creator" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Creator</button>
-                    <button onclick="setWebsiteTheme('tech')" id="btn-theme-tech" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Tech</button>
-                </div>
-            </div>
-
-            <!-- BROWSER WINDOW CONTAINER -->
-            <div class="rounded-3xl border-2 border-slate-800 overflow-hidden shadow-2xl bg-slate-950">
-                
-                <!-- URL Bar -->
-                <div class="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
-                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
-                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                    </div>
-                    <div class="px-4 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-slate-300 flex items-center gap-2">
-                        <i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i>
-                        <span>https://www.<strong id="site-url-domain" class="text-indigo-400">deepakkumar</strong>.com</span>
-                    </div>
-                    <span class="text-xs text-emerald-400 font-semibold hidden sm:inline">Live Preview</span>
-                </div>
-
-                <!-- DYNAMIC THEME WEBPAGE BODY -->
-                <div id="user-webpage-root" class="p-6 sm:p-12 space-y-10 transition-colors duration-300 bg-[#fdfbf7] text-slate-900 font-serif-exec">
-
-                    <!-- Navbar inside preview -->
-                    <div class="flex items-center justify-between pb-4 border-b border-slate-200">
-                        <span id="brand-logo-text" class="font-extrabold text-base tracking-tight">Executive Portfolio</span>
-                        <div class="flex items-center gap-4 text-xs font-semibold text-slate-600">
-                            <a href="#preview-skills" class="hover:text-indigo-600">Skills</a>
-                            <a href="#preview-experience" class="hover:text-indigo-600">Experience</a>
-                            <a href="#preview-download-cta" class="text-indigo-600 hover:underline">Download CV ↓</a>
-                        </div>
-                    </div>
-
-                    <!-- Hero Header -->
-                    <div id="preview-hero-card" class="rounded-3xl p-6 sm:p-10 border border-slate-200 bg-slate-50/80 shadow-sm relative overflow-hidden">
-                        <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-                            <div id="site-avatar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-slate-900 text-white flex items-center justify-center text-2xl sm:text-3xl font-bold shadow-md shrink-0">
-                                DK
-                            </div>
-                            <div class="space-y-2 flex-1">
-                                <span id="site-role" class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">Professional</span>
-                                <h2 id="site-name" class="text-3xl sm:text-4xl font-extrabold tracking-tight">Deepak Kumar</h2>
-                                <p id="site-bio" class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl"></p>
-                            </div>
-                        </div>
-                        <div class="mt-6 pt-5 border-t border-slate-200 flex flex-wrap gap-4 text-xs font-medium text-slate-600">
-                            <span class="flex items-center gap-1.5"><i data-lucide="mail" class="w-4 h-4 text-indigo-500"></i><span id="site-email">email@example.com</span></span>
-                            <span class="flex items-center gap-1.5"><i data-lucide="phone" class="w-4 h-4 text-emerald-500"></i><span id="site-phone">+91 9876543210</span></span>
-                            <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i><span id="site-location">India</span></span>
-                        </div>
-                    </div>
-
-                    <!-- Skills -->
-                    <div id="preview-skills" class="space-y-3">
-                        <h3 class="text-base font-extrabold tracking-tight flex items-center gap-2">
-                            <i data-lucide="zap" class="w-5 h-5 text-indigo-600"></i> Core Skills & Expertise
-                        </h3>
-                        <div id="site-skills-list" class="flex flex-wrap gap-2"></div>
-                    </div>
-
-                    <!-- Experience -->
-                    <div id="preview-experience" class="space-y-3">
-                        <h3 class="text-base font-extrabold tracking-tight flex items-center gap-2">
-                            <i data-lucide="briefcase" class="w-5 h-5 text-indigo-600"></i> Professional Experience & Achievements
-                        </h3>
-                        <div id="site-experience-list" class="space-y-3"></div>
-                    </div>
-
-                    <!-- Education -->
-                    <div class="space-y-3">
-                        <h3 class="text-base font-extrabold tracking-tight flex items-center gap-2">
-                            <i data-lucide="graduation-cap" class="w-5 h-5 text-indigo-600"></i> Education & Qualifications
-                        </h3>
-                        <div id="site-education-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
-                    </div>
-
-                    <!-- CTA DOWNLOAD BUTTON SECTION -->
-                    <div id="preview-download-cta" class="pt-8">
-                        <div class="rounded-3xl p-8 sm:p-10 bg-slate-900 text-white text-center space-y-6 shadow-2xl relative overflow-hidden">
-                            <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center mx-auto text-indigo-400">
-                                <i data-lucide="file-down" class="w-7 h-7"></i>
-                            </div>
-                            <div class="space-y-2 max-w-lg mx-auto">
-                                <h3 class="text-2xl sm:text-3xl font-black">Love your preview?</h3>
-                                <p class="text-xs sm:text-sm text-slate-300">
-                                    Click below to fill in your delivery details and unlock your custom domain website + CV download!
-                                </p>
-                            </div>
-                            <div>
-                                <button onclick="openPaymentPopup()" class="px-8 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm sm:text-base flex items-center justify-center gap-2.5 mx-auto shadow-xl shadow-emerald-500/20 transition transform hover:scale-105">
-                                    <i data-lucide="download" class="w-5 h-5"></i>
-                                    <span>Download Your Webpage CV</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PAYMENT MODAL -->
-    <div id="payment-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl text-white">
-            <button onclick="closePaymentPopup()" class="absolute top-5 right-5 text-slate-400 hover:text-white">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-
-            <!-- Checkout Form -->
-            <div id="popup-checkout-view" class="space-y-5">
-                <div>
-                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                        Secure Checkout • Instant Delivery
-                    </span>
-                    <h3 class="text-xl font-black mt-2">Download CV & Publish Website</h3>
-                    <p class="text-xs text-slate-400 mt-1">Enter your details below. Payment opens automatically.</p>
-                </div>
-
-                <form onsubmit="triggerRazorpay(event)" class="space-y-3.5">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Your Full Name *</label>
-                        <input type="text" id="pay-name" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="Deepak Kumar">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Your Email (For Website Link & Receipt) *</label>
-                        <input type="email" id="pay-email" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="you@gmail.com">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp Number *</label>
-                        <input type="tel" id="pay-phone" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="10-digit number">
-                    </div>
-
-                    <!-- UPGRADES / UPSELLS -->
-                    <div class="space-y-2 pt-1">
-                        <label class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 cursor-pointer hover:border-indigo-500/50">
-                            <div class="flex items-center gap-2.5">
-                                <input type="checkbox" id="pay-upsell-ats" onchange="updateTotal()" class="w-4 h-4 accent-indigo-600 rounded">
-                                <div>
-                                    <div class="text-xs font-bold text-white">+ ATS Resume PDF Makeover</div>
-                                    <div class="text-[11px] text-slate-400">Recruiter-ready PDF CV formatting</div>
-                                </div>
-                            </div>
-                            <span class="text-xs font-bold text-indigo-400">+₹199</span>
-                        </label>
-
-                        <!-- DOMAIN UPGRADE OPTION JUST BELOW ATS OPTION -->
-                        <label class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 cursor-pointer hover:border-indigo-500/50">
-                            <div class="flex items-center gap-2.5">
-                                <input type="checkbox" id="pay-upsell-domain" onchange="updateTotal()" class="w-4 h-4 accent-indigo-600 rounded">
-                                <div>
-                                    <div class="text-xs font-bold text-white">+ Custom Domain (.in / .com Setup)</div>
-                                    <div class="text-[11px] text-slate-400">Get yourname.com or .in connected</div>
-                                </div>
-                            </div>
-                            <span class="text-xs font-bold text-indigo-400">+₹699</span>
-                        </label>
-                    </div>
-
-                    <button type="submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition">
-                        <span>Pay ₹<span id="pay-btn-amount">299</span> & Download Webpage CV</span>
-                    </button>
-                    <p class="text-[11px] text-center text-slate-500">Secured by Razorpay</p>
-                </form>
-            </div>
-
-            <!-- Success View -->
-            <div id="popup-success-view" class="hidden text-center space-y-4 py-3">
-                <div class="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto text-emerald-400">
-                    <i data-lucide="check-circle-2" class="w-8 h-8"></i>
-                </div>
-                <h3 class="text-2xl font-black">₹<span id="paid-amt-text">299</span> Received!</h3>
-                <p class="text-xs text-slate-300">
-                    Thank you, <strong id="paid-name-text" class="text-white"></strong>! Confirmation sent to <strong id="paid-email-text" class="text-indigo-400"></strong>.
-                </p>
-                <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-300 text-left space-y-1">
-                    <div class="font-bold text-emerald-400">✅ Delivery in Progress:</div>
-                    <p>• Your custom website link will be delivered within 24 hours.</p>
-                </div>
-                <button onclick="closePaymentPopup(); window.print();" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs">
-                    Download Preview PDF Copy Now
-                </button>
-            </div>
-        </div>
+  <div class="panel">
+    <h2>2. Company look</h2>
+    <label for="company">Company name</label><input type="text" id="company" value="Acme Media">
+    <label for="shots">Screenshots of website and social media</label>
+    <div class="drop"><input type="file" id="shots" accept="image/*" multiple></div>
+    <div class="sw">
+      <label>Main<input type="color" id="cp" value="#0b5cab"></label>
+      <label>Accent<input type="color" id="ca" value="#f2a900"></label>
+      <label>Soft<input type="color" id="cs" value="#eef4fb"></label>
+      <label>Text<input type="color" id="ck" value="#10243a"></label>
     </div>
+    <label for="font">Font style</label>
+    <select id="font"><option value="m">Modern (clean sans)</option><option value="f">Formal (serif)</option><option value="r">Friendly (rounded)</option></select>
+    <p class="note">Colors are read from your screenshots. Change any swatch by hand. Font style is your choice because it can’t be read from a picture here.</p>
+  </div>
 
-    <!-- SCRIPT ENGINE -->
-    <script>
-        const CONFIG = {
-            RAZORPAY_KEY_ID: "YOUR_RAZORPAY_KEY_ID" // Replace with your live key ID from Comve / Razorpay
-        };
+  <div class="panel">
+    <h2>3. Profile they want</h2>
+    <label for="jd">Paste the job description</label>
+    <textarea id="jd">We need a video editor with Premiere Pro and After Effects skills. Good storytelling, social media analytics and scripting. Research and communication matter.</textarea>
+    <div class="gap" id="gap" style="margin-top:10px"></div>
+  </div>
+</div>
 
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+<div class="right">
+  <div class="actions"><button id="print" type="button">Print or save as PDF</button></div>
+  <div class="paper" id="paper">
+    <header><h3 id="o-name"></h3><p id="o-title"></p><span class="for" id="o-for"></span></header>
+    <div class="body">
+      <main>
+        <section><h4>Profile</h4><p id="o-sum"></p></section>
+        <section><h4>Experience</h4><ul id="o-exp"></ul></section>
+      </main>
+      <aside><section><h4>Skills</h4><div id="o-skills"></div></section></aside>
+    </div>
+  </div>
+</div>
+</div>
 
-        let cvData = {
-            name: "Deepak Kumar",
-            role: "Professional",
-            email: "",
-            phone: "",
-            location: "India",
-            bio: "",
-            skills: [],
-            experience: [],
-            education: [],
-            theme: "executive"
-        };
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var VOCAB=['video editing','premiere pro','after effects','seo','excel','python','sql','javascript','react','communication','content writing','copywriting','social media','analytics','project management','leadership','figma','photoshop','storytelling','research','public speaking','data analysis','marketing','journalism','scripting','canva','team management','reporting','editing','design'];
+var FONTS={m:"'Space Grotesk',system-ui,sans-serif",f:"'Source Serif 4',Georgia,serif",r:"'Nunito',system-ui,sans-serif"};
+var counts={};
 
-        const uploadInput = document.getElementById('cv-upload-input');
-        uploadInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            await handleCVFile(file);
-        });
+function hsl(r,g,b){r/=255;g/=255;b/=255;var mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,h=0,s=0,d=mx-mn;
+ if(d){s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?((g-b)/d+(g<b?6:0)):mx===g?(b-r)/d+2:(r-g)/d+4;h*=60}return[h,s,l]}
+function hex(h,s,l){var a=s*Math.min(l,1-l);function f(n){var k=(n+h/30)%12;var c=l-a*Math.max(-1,Math.min(k-3,9-k,1));return('0'+Math.round(c*255).toString(16)).slice(-2)}return'#'+f(0)+f(8)+f(4)}
+function hexRGB(x){return[parseInt(x.substr(1,2),16),parseInt(x.substr(3,2),16),parseInt(x.substr(5,2),16)]}
+function lum(x){var c=hexRGB(x).map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
 
-        async function handleCVFile(file) {
-            document.getElementById('upload-idle').classList.add('hidden');
-            document.getElementById('upload-loading').classList.remove('hidden');
+function scan(img){
+ var c=document.createElement('canvas');c.width=c.height=56;var x=c.getContext('2d');x.drawImage(img,0,0,56,56);
+ var d=x.getImageData(0,0,56,56).data;
+ for(var i=0;i<d.length;i+=4){var r=d[i],g=d[i+1],b=d[i+2],q=hsl(r,g,b);
+  if(q[2]>.93||q[2]<.07||q[1]<.2)continue;
+  var k=(r>>5)+','+(g>>5)+','+(b>>5);var o=counts[k]||(counts[k]={n:0,r:0,g:0,b:0});o.n++;o.r+=r;o.g+=g;o.b+=b}
+}
+function pick(){
+ var arr=Object.keys(counts).map(function(k){var o=counts[k];return{n:o.n,c:hsl(o.r/o.n,o.g/o.n,o.b/o.n)}}).sort(function(a,b){return b.n-a.n});
+ if(!arr.length)return;
+ var p=arr[0].c,a=null;
+ for(var i=1;i<arr.length;i++){var dh=Math.abs(arr[i].c[0]-p[0]);dh=Math.min(dh,360-dh);if(dh>40){a=arr[i].c;break}}
+ if(!a)a=[(p[0]+30)%360,Math.min(1,p[1]+.1),Math.min(.6,Math.max(.45,p[2]))];
+ var pl=Math.min(p[2],.45);
+ $('cp').value=hex(p[0],Math.max(p[1],.4),pl);
+ $('ca').value=hex(a[0],Math.max(a[1],.5),Math.min(Math.max(a[2],.45),.6));
+ $('cs').value=hex(p[0],.5,.96);
+ $('ck').value=hex(p[0],.45,.14);
+}
+$('shots').addEventListener('change',function(e){
+ counts={};var files=Array.prototype.slice.call(e.target.files),left=files.length;
+ if(!left){return}
+ files.forEach(function(f){var u=URL.createObjectURL(f),im=new Image();
+  im.onload=function(){scan(im);URL.revokeObjectURL(u);if(!--left){pick();render()}};
+  im.onerror=function(){if(!--left){pick();render()}};im.src=u});
+});
 
-            try {
-                let text = "";
-                const ext = file.name.split('.').pop().toLowerCase();
-                if (ext === 'pdf') {
-                    const buf = await file.arrayBuffer();
-                    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        const page = await pdf.getPage(i);
-                        const content = await page.getTextContent();
-                        text += content.items.map(item => item.str).join(" ") + "\n";
-                    }
-                } else if (ext === 'docx') {
-                    const buf = await file.arrayBuffer();
-                    const res = await mammoth.extractRawText({ arrayBuffer: buf });
-                    text = res.value;
-                } else {
-                    text = await file.text();
-                }
-
-                if (!text || text.trim().length < 20) {
-                    text = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ") + "\nProfessional Portfolio\nExperienced professional.";
-                }
-
-                parseCV(text, file.name);
-            } catch (err) {
-                parseCV("Deepak Kumar\nProfessional Portfolio", file.name);
-            }
-        }
-
-        function parseCV(rawText, fileName) {
-            const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-
-            const emailMatch = rawText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-            cvData.email = emailMatch ? emailMatch[0] : "deepak.kumar@email.com";
-
-            const phoneMatch = rawText.match(/(?:\+?91[\-\s]?)?[6-9]\d{9}/);
-            cvData.phone = phoneMatch ? phoneMatch[0] : "+91 9876543210";
-
-            let name = "";
-            for (let i = 0; i < Math.min(lines.length, 5); i++) {
-                if (lines[i].length >= 3 && !lines[i].includes('@') && !/resume|cv/i.test(lines[i])) {
-                    name = lines[i].replace(/[^a-zA-Z\s.]/g, '').trim();
-                    break;
-                }
-            }
-            cvData.name = name || "Deepak Kumar";
-
-            const roles = ["Software Engineer", "Marketing Manager", "Product Manager", "Full Stack Developer", "Data Analyst", "Content Creator", "Graphic Designer", "Consultant"];
-            cvData.role = roles.find(r => new RegExp(r, 'i').test(rawText)) || "Professional & Creator";
-
-            const skillBank = ["JavaScript", "Python", "React", "Node.js", "SQL", "Marketing Strategy", "SEO", "Content Creation", "Video Editing", "Project Management", "UI/UX Design", "Figma", "Data Analysis", "Leadership", "Sales", "Communication"];
-            cvData.skills = skillBank.filter(s => new RegExp(`\\b${s}\\b`, 'i').test(rawText));
-            if (cvData.skills.length < 4) cvData.skills = ["Strategic Planning", "Project Execution", "Digital Tools", "Problem Solving", "Client Communication"];
-
-            cvData.experience = lines.filter(l => l.length > 30 && l.length < 150 && !l.includes('@')).slice(0, 4);
-            if (cvData.experience.length === 0) cvData.experience = ["Executed core projects successfully with measurable high-efficiency performance.", "Collaborated in cross-functional team environments to scale results."];
-
-            cvData.education = ["Bachelor / Master Degree Program — Verified from CV", "Academic & Professional Certifications"];
-            cvData.bio = `${cvData.name} is a ${cvData.role} specializing in modern execution, technical strategy, and digital growth.`;
-
-            renderPreview();
-        }
-
-        function loadSampleCV() {
-            parseCV("Deepak Kumar\ndeepak.kumar@gmail.com\n+91 9876543210\nNoida, India\nSenior Creator & Full Stack Developer\nExpert in React, Node.js, Video Production, Brand Growth, and UI/UX Design.\nBuilt and scaled web apps and digital media channels.\nBTech in Computer Science.", "Deepak-Kumar-CV.pdf");
-        }
-
-        function renderPreview() {
-            document.getElementById('upload-loading').classList.add('hidden');
-            document.getElementById('upload-idle').classList.remove('hidden');
-
-            const domainSlug = cvData.name.toLowerCase().replace(/[^a-z0-9]+/g, '');
-            document.getElementById('site-url-domain').textContent = domainSlug || "deepakkumar";
-            document.getElementById('site-name').textContent = cvData.name;
-            document.getElementById('site-role').textContent = cvData.role;
-            document.getElementById('site-bio').textContent = cvData.bio;
-            document.getElementById('site-email').textContent = cvData.email;
-            document.getElementById('site-phone').textContent = cvData.phone;
-            document.getElementById('site-location').textContent = cvData.location;
-
-            document.getElementById('site-skills-list').innerHTML = cvData.skills.map(s => `<span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold shadow-sm">${s}</span>`).join('');
-            document.getElementById('site-experience-list').innerHTML = cvData.experience.map(e => `<div class="p-4 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm text-slate-700 shadow-sm">${e}</div>`).join('');
-            document.getElementById('site-education-list').innerHTML = cvData.education.map(ed => `<div class="p-4 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm">${ed}</div>`).join('');
-
-            document.getElementById('pay-name').value = cvData.name;
-            document.getElementById('pay-email').value = cvData.email;
-            document.getElementById('pay-phone').value = cvData.phone;
-
-            const section = document.getElementById('live-website-section');
-            section.classList.remove('hidden');
-            lucide.createIcons();
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function setWebsiteTheme(theme) {
-            cvData.theme = theme;
-            const root = document.getElementById('user-webpage-root');
-            const avatar = document.getElementById('site-avatar');
-            const brandText = document.getElementById('brand-logo-text');
-
-            ['executive', 'creator', 'tech'].forEach(t => {
-                document.getElementById(`btn-theme-${t}`).className = "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
-            });
-            document.getElementById(`btn-theme-${theme}`).className = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition";
-
-            if (theme === 'executive') {
-                root.className = "p-6 sm:p-12 space-y-10 transition-colors duration-300 bg-[#fdfbf7] text-slate-900 font-serif-exec";
-                avatar.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-slate-900 text-white flex items-center justify-center text-2xl font-bold shadow-md shrink-0";
-                brandText.textContent = "Executive Portfolio";
-            } else if (theme === 'creator') {
-                root.className = "p-6 sm:p-12 space-y-10 transition-colors duration-300 bg-gradient-to-br from-rose-50/70 via-white to-amber-50/50 text-slate-900";
-                avatar.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-tr from-rose-500 via-pink-600 to-amber-500 text-white flex items-center justify-center text-2xl font-black shadow-lg shrink-0";
-                brandText.textContent = "✨ Creator Studio";
-            } else if (theme === 'tech') {
-                root.className = "p-6 sm:p-12 space-y-10 transition-colors duration-300 bg-[#040b11] text-emerald-100 font-mono-tech";
-                avatar.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-emerald-600 text-slate-950 flex items-center justify-center text-2xl font-black shadow-lg border border-emerald-400/40 shrink-0";
-                brandText.textContent = "root@portfolio:~$";
-            }
-        }
-
-        function openPaymentPopup() {
-            document.getElementById('popup-checkout-view').classList.remove('hidden');
-            document.getElementById('popup-success-view').classList.add('hidden');
-            document.getElementById('payment-modal').classList.remove('hidden');
-        }
-
-        function closePaymentPopup() {
-            document.getElementById('payment-modal').classList.add('hidden');
-        }
-
-        function getTotalAmount() {
-            let total = 299;
-            if (document.getElementById('pay-upsell-ats').checked) total += 199;
-            if (document.getElementById('pay-upsell-domain').checked) total += 699;
-            return total;
-        }
-
-        function updateTotal() {
-            document.getElementById('pay-btn-amount').textContent = getTotalAmount();
-        }
-
-        function triggerRazorpay(e) {
-            e.preventDefault();
-            const name = document.getElementById('pay-name').value;
-            const email = document.getElementById('pay-email').value;
-            const phone = document.getElementById('pay-phone').value;
-            const amt = getTotalAmount();
-
-            if (!CONFIG.RAZORPAY_KEY_ID || CONFIG.RAZORPAY_KEY_ID === "YOUR_RAZORPAY_KEY_ID") {
-                onPaymentSuccess("pay_SIMULATED_" + Math.floor(100000 + Math.random() * 900000), amt);
-                return;
-            }
-
-            const options = {
-                key: CONFIG.RAZORPAY_KEY_ID,
-                amount: amt * 100,
-                currency: "INR",
-                name: "Folio299",
-                description: "Custom Domain Website + CV",
-                prefill: { name, email, contact: phone },
-                handler: function (res) {
-                    onPaymentSuccess(res.razorpay_payment_id, amt);
-                }
-            };
-            const rzp = new Razorpay(options);
-            rzp.open();
-        }
-
-        function onPaymentSuccess(payId, amt) {
-            document.getElementById('popup-checkout-view').classList.add('hidden');
-            document.getElementById('popup-success-view').classList.remove('hidden');
-            document.getElementById('paid-amt-text').textContent = amt;
-            document.getElementById('paid-name-text').textContent = document.getElementById('pay-name').value;
-            document.getElementById('paid-email-text').textContent = document.getElementById('pay-email').value;
-        }
-
-        lucide.createIcons();
-    </script>
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function render(){
+ var p=$('paper').style,cp=$('cp').value;
+ p.setProperty('--p',cp);p.setProperty('--a',$('ca').value);p.setProperty('--s',$('cs').value);p.setProperty('--k',$('ck').value);
+ p.setProperty('--on',lum(cp)>.45?$('ck').value:'#ffffff');
+ p.setProperty('--f',FONTS[$('font').value]);
+ var jd=$('jd').value.toLowerCase();
+ var skills=$('skills').value.split(',').map(function(s){return s.trim()}).filter(Boolean);
+ var wanted=VOCAB.filter(function(v){return jd.indexOf(v)>-1});
+ skills.forEach(function(s){if(jd.indexOf(s.toLowerCase())>-1&&wanted.indexOf(s.toLowerCase())<0)wanted.push(s.toLowerCase())});
+ var isM=function(s){return wanted.indexOf(s.toLowerCase())>-1};
+ var sorted=skills.filter(isM).concat(skills.filter(function(s){return!isM(s)}));
+ var exp=$('exp').value.split('\n').map(function(s){return s.trim()}).filter(Boolean);
+ var score=function(l){l=l.toLowerCase();return wanted.filter(function(w){return l.indexOf(w)>-1||l.indexOf(w.split(' ')[0])>-1}).length};
+ exp=exp.map(function(l,i){return{l:l,s:score(l),i:i}}).sort(function(a,b){return b.s-a.s||a.i-b.i});
+ $('o-name').textContent=$('name').value;
+ $('o-title').textContent=$('title').value;
+ var co=$('company').value.trim();$('o-for').textContent=co?'Application for '+co:'';$('o-for').style.display=co?'inline-block':'none';
+ $('o-sum').textContent=$('summary').value;
+ $('o-exp').innerHTML=exp.map(function(e){return'<li>'+esc(e.l)+'</li>'}).join('');
+ $('o-skills').innerHTML=sorted.map(function(s){return'<span class="chip'+(isM(s)?' m':'')+'">'+esc(s)+'</span>'}).join('');
+ var all=(skills.join(' ')+' '+exp.map(function(e){return e.l}).join(' ')+' '+$('summary').value).toLowerCase();
+ var gaps=wanted.filter(function(w){return all.indexOf(w)<0});
+ var have=wanted.filter(function(w){return all.indexOf(w)>-1});
+ $('gap').innerHTML=wanted.length?
+  '<b>Matches ('+have.length+')</b>'+(have.map(function(t){return'<span class="tag">'+esc(t)+'</span>'}).join('')||'None yet')+
+  '<b style="margin-top:8px">Missing from your CV ('+gaps.length+')</b>'+(gaps.map(function(t){return'<span class="tag">'+esc(t)+'</span>'}).join('')||'None')+
+  '<div class="note">Add a missing skill only if you really have it, or plan to learn it with a course or small project. Matching skills are shown first and filled in on the CV.</div>'
+  :'Paste a job description to see which skills match.';
+}
+['name','title','summary','skills','exp','company','jd','cp','ca','cs','ck','font'].forEach(function(i){$(i).addEventListener('input',render)});
+$('print').addEventListener('click',function(){try{window.print()}catch(e){}});
+render();
+})();
+</script>
 </body>
 </html>
