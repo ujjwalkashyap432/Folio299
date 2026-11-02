@@ -40,7 +40,8 @@ button.alt{background:none;color:var(--ink);border:1px solid var(--line)}
 .cv.sans{--f:Calibri,Arial,sans-serif}.cv.serif{--f:Georgia,"Times New Roman",serif}
 .cv.plain h4{color:#111;border-color:#111}
 .acts{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
-@media print{body{background:#fff}.wrap{display:block;padding:0}.left,.acts{display:none}.cv{border:0;padding:0;max-width:none}.cv h4{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px}.ba h5{margin:0 0 4px;font-size:13px}.ba>div{background:var(--bg);border-radius:8px;padding:10px}.ba ul,.sg{margin:4px 0 0;padding-left:18px;font-size:13px}[hidden]{display:none!important}
+@media print{body{background:#fff}.wrap{display:block;padding:0}.left,.acts,.right>.panel{display:none}.cv{border:0;padding:0;max-width:none}.cv h4{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
@@ -76,7 +77,7 @@ button.alt{background:none;color:var(--ink);border:1px solid var(--line)}
   <div class="panel">
     <h2>3. Style</h2>
     <div class="two">
-      <div><label for="tpl">Template</label><select id="tpl"><option value="">Classic (Arial)</option><option value="sans">Clean (Calibri)</option><option value="serif">Formal (Georgia)</option></select></div>
+      <div><label for="tpl">Template</label><select id="tpl"><option value="plain">Simple (black and white)</option><option value="">Classic (Arial)</option><option value="sans">Clean (Calibri)</option><option value="serif">Formal (Georgia)</option></select></div>
       <div><label for="col">Heading colour</label><input type="color" id="col" value="#0b5cab" style="width:100%;height:38px"></div>
     </div>
     <label for="shot">Optional: company screenshot to pick its colour</label>
@@ -93,7 +94,10 @@ button.alt{background:none;color:var(--ink);border:1px solid var(--line)}
 
 <div class="right">
   <div class="panel"><div class="score" id="sc">0%</div><div class="note">ATS readiness of the rebuilt CV</div><ul class="chk" id="chk"></ul></div>
-  <div class="acts"><button id="print" type="button">Print or save as PDF</button><button class="alt" id="copy" type="button">Copy as plain text</button></div>
+  <div class="panel"><h2>What we changed</h2><div class="ba" id="ba"><div>Upload a CV to see the before and after.</div></div></div>
+  <div class="panel"><h2>Suggestions</h2><div id="sg"></div></div>
+  <div class="acts"><button id="print" type="button">Download PDF · ₹19</button><button class="alt" id="copy" type="button">Copy as plain text</button></div>
+  <div class="panel" id="pay" hidden><h2>Download for ₹19</h2><p style="margin:0 0 10px">You pay only when you download. Preview and edits stay free.</p><div class="row"><button id="payBtn" type="button">Pay ₹19 (demo)</button><button class="alt" id="payX" type="button">Not now</button></div><p class="note">This is a demo and no money is taken. Real UPI and card payment needs a server with a payment provider such as Razorpay.</p></div>
   <div class="cv" id="cv"></div>
 </div>
 </div>
@@ -104,7 +108,7 @@ var $=function(i){return document.getElementById(i)};
 try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'}catch(e){}
 var VOCAB=['video editing','premiere pro','after effects','seo','excel','python','sql','javascript','react','communication','content writing','copywriting','social media','analytics','project management','leadership','figma','photoshop','storytelling','research','public speaking','data analysis','marketing','journalism','scripting','canva','team management','reporting','editing','design','sales','customer service','budgeting','negotiation'];
 var F=['name','headline','email','phone','links','summary','skills','experience','education','projects','other'];
-var H={summary:/^(professional |career )?(summary|profile|objective|about( me)?)$/i,experience:/^(work |professional |relevant )?(experience|employment( history)?|internships?)$/i,education:/^(education|academic.*|qualifications?)$/i,skills:/^((key|technical|core) )?skills$|^competenc.*/i,projects:/^(academic )?projects?$/i,other:/^(certifications?|courses|achievements|awards|languages|interests|training|volunteering)$/i};
+var H={summary:/^(professional |career )?(summary|profile|objective|about( me)?)$/i,experience:/^(work |professional |relevant )?(experience|employment( history)?|internships?)$/i,education:/^(education|academic.*|qualifications?)$/i,skills:/^((key|technical|core) )?skills$|^competenc.*/i,projects:/^(academic )?projects?$/i,other:/^(certifications?|courses|achievements|awards|languages|training|volunteering)$/i,drop:/^(hobbies|interests|declaration|references?|personal (details|information|profile))$/i};
 
 function status(t){$('st').textContent=t}
 function readPDF(buf){return pdfjsLib.getDocument({data:buf}).promise.then(function(pdf){
@@ -129,10 +133,10 @@ $('file').addEventListener('change',function(e){
 
 function parse(t){
  var L=t.split(/\r?\n/).map(function(s){return s.replace(/\s+/g,' ').trim()}).filter(Boolean);
- var S={head:[],summary:[],experience:[],education:[],skills:[],projects:[],other:[]},cur='head';
+ var S={head:[],summary:[],experience:[],education:[],skills:[],projects:[],other:[],drop:[],dropped:[]},cur='head';
  L.forEach(function(l){var h=l.replace(/[:\-–—_|]+$/,'').trim(),hit=null;
   if(h.length<34)for(var k in H)if(H[k].test(h)){hit=k;break}
-  if(hit){cur=hit;if(hit==='other')S.other.push(h);return}
+  if(hit){cur=hit;if(hit==='other')S.other.push(h);if(hit==='drop')S.dropped.push(h);return}
   S[cur].push(l)});
  var hd=S.head.join(' | ');
  var em=(hd.match(/[\w.+-]+@[\w-]+\.[\w.-]+/)||[''])[0];
@@ -142,8 +146,33 @@ function parse(t){
  var hl=(S.head[1]&&S.head[1].indexOf('@')<0&&!/\d{5,}/.test(S.head[1])&&S.head[1].length<80)?S.head[1]:'';
  var sk=S.skills.join(', ').replace(/[•●▪·|;]/g,',').replace(/\s*,\s*(,\s*)*/g,', ').replace(/^,\s*|,\s*$/g,'');
  var bl=function(a){return a.map(function(x){return x.replace(/^[•●▪◦\-–*]\s*/,'• ').replace(/^(?!•)/,'')}).join('\n')};
- return{name:name,headline:hl,email:em,phone:ph,links:lk,summary:S.summary.join(' '),skills:sk,experience:bl(S.experience),education:S.education.join('\n'),projects:bl(S.projects),other:S.other.join('\n')}}
-function run(){var d=parse($('raw').value);F.forEach(function(k){$(k).value=d[k]});render()}
+ return{dropped:S.dropped,name:name,headline:hl,email:em,phone:ph,links:lk,summary:S.summary.join(' '),skills:sk,experience:bl(S.experience),education:S.education.join('\n'),projects:bl(S.projects),other:S.other.join('\n')}}
+var last=null;
+function wc(s){return s.split(/\s+/).filter(Boolean).length}
+function clean(t,log){return t.split('\n').filter(function(l){if(/references? (available|on request|furnished)|i hereby declare|date of birth|^d\.?o\.?b|marital status|father.?s name|nationality|passport no|^(place|date)\s*:/i.test(l)){log.removed.push(l.length>50?l.slice(0,50)+'…':l);return false}return true}).join('\n')}
+function tidy(t,log){var out=[],grp=[];
+ var flush=function(){if(grp.length>5){var idx=grp.map(function(x,i){return i}),keep=idx.filter(function(i){return/\d/.test(grp[i])}).concat(idx.filter(function(i){return!/\d/.test(grp[i])})).slice(0,5).sort(function(a,b){return a-b});log.cut+=grp.length-5;grp=keep.map(function(i){return grp[i]})}grp.forEach(function(g){out.push(g)});grp=[]};
+ t.split('\n').forEach(function(l){if(l.charAt(0)==='•'){var w=l.split(/\s+/);if(w.length>28){var s=l.replace(/^•\s*/,''),m=s.match(/^(.{40,}?)[.;](\s|$)/),c=(m&&wc(m[1])<=28)?m[1]:w.slice(0,26).join(' ').replace(/^•\s*/,'').replace(/[,;:\s]+$/,'');l='• '+c;log.short++}grp.push(l)}else{flush();out.push(l)}});flush();return out.join('\n')}
+function genSummary(d,raw){var sk=d.skills.split(',').map(function(s){return s.trim()}).filter(Boolean);
+ var role=(d.headline||'').split(/\s[—–|-]\s|\s*[|,]\s*/).filter(Boolean).slice(0,2).join(' and ')||'Professional';
+ var y=raw.match(/(\d{1,2})\+?\s*(?:years?|yrs)/i),yrs=(y&&+y[1]<=40)?y[1]+'+ years of ':'';
+ var a=sk.slice(0,3).join(', ').replace(/,([^,]*)$/,' and$1'),b=sk.slice(3,5).join(' and ');
+ return role+' with '+yrs+'experience'+(a?' in '+a:'')+'.'+(b?' Also skilled in '+b+'.':'')+' Looking for a role where these skills can be applied to real business results.'}
+function run(){var raw=$('raw').value,d=parse(raw),log={cut:0,short:0,removed:[],added:['Single-column layout with standard headings (ATS safe)'],drop:d.dropped||[]};
+ var b4={words:wc(raw),bul:(raw.match(/^\s*[•●▪◦\-–*]/gm)||[]).length,sum:d.summary};
+ ['other','education','projects','experience'].forEach(function(k){d[k]=clean(d[k],log)});
+ d.experience=tidy(d.experience,log);d.projects=tidy(d.projects,log);
+ var sw=wc(d.summary);
+ if(sw<20||sw>80){d.summary=genSummary(d,raw);log.added.push(sw?'Summary rewritten to 2 or 3 short lines (it was '+sw+' words)':'Summary written from your headline and skills')}
+ var hl=d.headline.split(/\s[—–]\s/);if(hl.length>4)log.removed.push('Extra headline keywords');d.headline=hl.slice(0,4).join(' | ');
+ F.forEach(function(k){$(k).value=d[k]});
+ b4.after=wc(plainText(val()));log.b4=b4;log.aft={bul:($('experience').value.match(/^•/gm)||[]).length};
+ last=log;render();ba()}
+function ba(){var l=last,v=val();if(!l)return;
+ var li=function(a){return'<ul>'+(a.length?a.map(function(x){return'<li>'+esc(x)+'</li>'}).join(''):'<li>Nothing</li>')+'</ul>'};
+ var chg=[];if(l.short)chg.push(l.short+' long bullet'+(l.short>1?'s':'')+' shortened');if(l.cut)chg.push(l.cut+' less useful bullet'+(l.cut>1?'s':'')+' removed (bullets with numbers kept first)');
+ l.drop.forEach(function(h){chg.push('Removed section: '+h)});l.removed.forEach(function(x){chg.push('Removed: '+x)});
+ $('ba').innerHTML='<div><h5>Before (your upload)</h5>'+li(['Length: '+l.b4.words+' words','Bullet points: '+l.b4.bul,'Summary: '+(l.b4.sum?wc(l.b4.sum)+' words':'missing')])+'</div><div><h5>After (rebuilt)</h5>'+li(['Length: '+l.b4.after+' words','Bullet points: '+l.aft.bul,'Summary: '+wc(v.summary)+' words'])+'</div><div style="grid-column:1/-1"><h5>Added</h5>'+li(l.added)+'<h5 style="margin-top:8px">Removed or shortened</h5>'+li(chg)+(l.b4.sum?'<h5 style="margin-top:8px">Your old summary</h5><p style="margin:0">'+esc(l.b4.sum)+'</p>':'')+'</div>'}
 $('parse').addEventListener('click',run);
 
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -176,9 +205,30 @@ function render(){
  $('sc').textContent=Math.round(ok/checks.length*100)+'%';
  $('chk').innerHTML=checks.map(function(c){return'<li class="'+(c[1]?'y':'n')+'">'+(c[1]?'✓ ':'✗ ')+c[0]+'</li>'}).join('');
  $('kw').innerHTML=want.length?'<b>In your CV:</b> '+(have.map(function(t){return'<span class="tag">'+esc(t)+'</span>'}).join('')||'none')+'<br><b>Missing:</b> '+(miss.map(function(t){return'<span class="tag">'+esc(t)+'</span>'}).join('')||'none')+'<div class="note">Add a missing keyword only if it is true for you.</div>':''}
+function sug(){var v=val(),all=plainText(v),raw=$('raw').value+' '+all,imp=[],imv=[],bl=v.experience.split('\n').filter(function(x){return x.charAt(0)==='•'});
+ if(!v.email)imp.push('Add your email address');if(!v.phone)imp.push('Add your phone number');
+ if(!/linkedin\.com/i.test(v.links))imp.push('Add your LinkedIn profile link');
+ if(!/india|delhi|mumbai|bengaluru|bangalore|pune|hyderabad|chennai|noida|gurgaon|gurugram|kolkata|patna|jaipur|ahmedabad|lucknow/i.test(raw))imp.push('Add your city and state. Recruiters filter by location');
+ if(v.experience.trim()&&!/(19|20)\d\d/.test(v.experience))imp.push('Add start and end dates (month and year) for every job');
+ if(v.education&&!/(19|20)\d\d/.test(v.education))imp.push('Add the passing year for your education');
+ if(!v.experience.trim())imp.push('Add a work experience section. Freshers can use internships and projects');
+ if(!/certif|itil|course/i.test(v.other+v.education+v.skills))imp.push('Add certifications you hold, with the year');
+ var nb=bl.filter(function(x){return/\d/.test(x)}).length;
+ if(bl.length&&nb/bl.length<.3)imv.push('Add numbers to your bullets, such as tickets closed, % faster, users supported. Only '+nb+' of '+bl.length+' have one');
+ if(bl.some(function(x){return/^•\s*(responsible for|worked on|involved in|helped)/i.test(x)}))imv.push('Start bullets with action words like Built, Fixed, Reduced, Led');
+ if(v.skills.split(',').filter(function(s){return s.trim()}).length<8)imv.push('List 8 to 12 skills that match the job');
+ if(!v.projects.trim())imv.push('Add one or two projects with the tools you used and the result');
+ imv.push('Rewrite the summary in your own words. The auto summary is a starting draft');
+ imv.push('Make one CV per job and copy the keywords from that job description');
+ var ul=function(a,e){return'<ul class="sg">'+(a.length?a.map(function(x){return'<li>'+esc(x)+'</li>'}).join(''):'<li>'+e+'</li>')+'</ul>'};
+ $('sg').innerHTML='<b>Missing and important</b>'+ul(imp,'Nothing important is missing')+'<b style="display:block;margin-top:10px">Can be improved</b>'+ul(imv,'Looks good')}
+var r0=render;render=function(){r0();sug()};
 F.concat(['tpl','col','jd']).forEach(function(i){$(i).addEventListener('input',render)});
-$('print').addEventListener('click',function(){try{window.print()}catch(e){}});
-$('copy').addEventListener('click',function(){var b=$('copy');try{navigator.clipboard.writeText(plainText(val())).then(function(){b.textContent='Copied'},function(){b.textContent='Copy blocked'})}catch(e){b.textContent='Copy blocked'}setTimeout(function(){b.textContent='Copy as plain text'},1800)});
+var paid=false;function gate(){$('pay').hidden=false;$('pay').scrollIntoView({block:'center'})}
+$('print').addEventListener('click',function(){if(!paid){gate();return}try{window.print()}catch(e){}});
+$('payBtn').addEventListener('click',function(){paid=true;$('pay').hidden=true;$('print').textContent='Download PDF';try{window.print()}catch(e){}});
+$('payX').addEventListener('click',function(){$('pay').hidden=true});
+$('copy').addEventListener('click',function(){if(!paid){gate();return}var b=$('copy');try{navigator.clipboard.writeText(plainText(val())).then(function(){b.textContent='Copied'},function(){b.textContent='Copy blocked'})}catch(e){b.textContent='Copy blocked'}setTimeout(function(){b.textContent='Copy as plain text'},1800)});
 
 $('shot').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;var u=URL.createObjectURL(f),im=new Image();
  im.onload=function(){var c=document.createElement('canvas');c.width=c.height=48;var x=c.getContext('2d');x.drawImage(im,0,0,48,48);var d=x.getImageData(0,0,48,48).data,m={};
