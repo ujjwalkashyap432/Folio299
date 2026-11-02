@@ -3,186 +3,191 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CV Theme Studio</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Source+Serif+4:wght@400;600;700&family=Nunito:wght@400;700;800&family=Inter:wght@400;500;600&display=swap">
+<title>ATS CV Builder</title>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#f3f2ee;--panel:#fff;--ink:#1d1f24;--mute:#60646c;--line:#dcdad3;--btn:#1d1f24;--btnt:#fff}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17181b;--panel:#202226;--ink:#ecebe7;--mute:#a1a4ab;--line:#33363c;--btn:#ecebe7;--btnt:#17181b}}
+--bg:#f3f2ee;--panel:#fff;--ink:#1d1f24;--mute:#60646c;--line:#dcdad3;--btn:#1d1f24;--btnt:#fff;--ok:#1a7f4b;--no:#b3261e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17181b;--panel:#202226;--ink:#ecebe7;--mute:#a1a4ab;--line:#33363c;--btn:#ecebe7;--btnt:#17181b;--ok:#4cc58a;--no:#ff8a80}}
 *,*:before,*:after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
-.wrap{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:24px;max-width:1200px;margin:0 auto;padding:20px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.wrap{display:grid;grid-template-columns:minmax(300px,430px) 1fr;gap:24px;max-width:1220px;margin:0 auto;padding:20px}
 @media(max-width:860px){.wrap{grid-template-columns:1fr}}
-h1{font-size:22px;margin:0 0 4px}
-.sub{color:var(--mute);margin:0 0 16px}
+h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mute);margin:0 0 16px}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
 .panel h2{font-size:15px;margin:0 0 10px}
 label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
 input[type=text],textarea,select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
-textarea{min-height:84px;resize:vertical}
+textarea{min-height:76px;resize:vertical}
 input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid #3b6fd8;outline-offset:2px}
-.drop{border:1.5px dashed var(--line);border-radius:8px;padding:10px;font-size:13px;color:var(--mute)}
-.sw{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.sw label{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px}
-.sw input{width:48px;height:36px;padding:0;border:1px solid var(--line);border-radius:6px;background:none}
+.drop{border:1.5px dashed var(--line);border-radius:8px;padding:12px;font-size:13px;color:var(--mute)}
 button{font:inherit;font-weight:600;background:var(--btn);color:var(--btnt);border:0;border-radius:6px;padding:9px 14px;cursor:pointer}
-.gap{background:var(--bg);border-radius:8px;padding:10px 12px;font-size:13px}
-.gap b{display:block;margin-bottom:4px}
-.tag{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:1px 9px;margin:2px 3px 2px 0;font-size:12px}
+button.alt{background:none;color:var(--ink);border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.row>*{flex:1}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .note{font-size:12px;color:var(--mute);margin-top:8px}
-/* CV paper */
-.paper{--p:#0b5cab;--a:#f2a900;--s:#eef4fb;--k:#10243a;--on:#fff;--f:'Space Grotesk',system-ui,sans-serif;
-background:#fff;color:var(--k);font-family:var(--f);border:1px solid var(--line);border-radius:4px;overflow:hidden;max-width:780px;margin:0 auto;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.paper header{background:var(--p);color:var(--on);padding:30px 34px 24px;border-bottom:6px solid var(--a)}
-.paper header h3{margin:0;font-size:32px;line-height:1.1;letter-spacing:-.01em}
-.paper header p{margin:6px 0 0;font-size:16px;opacity:.92}
-.paper .for{display:inline-block;margin-top:14px;background:var(--a);color:var(--k);font-size:13px;font-weight:700;padding:3px 10px;border-radius:3px}
-.paper .body{display:grid;grid-template-columns:1fr 210px;gap:0}
-@media(max-width:620px){.paper .body{grid-template-columns:1fr}}
-.paper main{padding:24px 34px}
-.paper aside{background:var(--s);padding:24px 22px}
-.paper h4{margin:0 0 8px;font-size:15px;color:var(--p);border-bottom:2px solid var(--a);padding-bottom:4px}
-.paper section{margin-bottom:22px}
-.paper section p,.paper li{font-size:14px;line-height:1.55}
-.paper ul{padding-left:18px;margin:0}
-.paper li{margin-bottom:6px}
-.chip{display:inline-block;font-size:13px;padding:2px 9px;margin:0 4px 6px 0;border-radius:3px;background:#fff;border:1px solid var(--p);color:var(--k)}
-.chip.m{background:var(--p);color:var(--on)}
-.actions{display:flex;gap:8px;justify-content:center;margin:0 0 12px;flex-wrap:wrap}
-@media print{body{background:#fff}.wrap{display:block;padding:0}.left,.actions{display:none}.paper{border:0;box-shadow:none;max-width:none}.paper header,.chip.m{-webkit-print-color-adjust:exact;print-color-adjust:exact}.paper aside{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.score{font-size:34px;font-weight:700;line-height:1}
+.chk{list-style:none;padding:0;margin:10px 0 0;font-size:13px}
+.chk li{padding:2px 0}.chk .y{color:var(--ok)}.chk .n{color:var(--no)}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:1px 9px;margin:2px 3px 2px 0;font-size:12px}
+/* CV page: single column, real text, standard headings = ATS safe */
+.cv{--c:#0b5cab;--f:Arial,Helvetica,sans-serif;background:#fff;color:#111;font-family:var(--f);max-width:794px;margin:0 auto;padding:40px 46px;border:1px solid var(--line);border-radius:3px;font-size:13.5px;line-height:1.5}
+.cv h3{margin:0;font-size:28px;line-height:1.15}
+.cv .hl{font-size:15px;margin:2px 0 4px;color:#333}
+.cv .ct{font-size:12.5px;color:#333;margin:0 0 6px}
+.cv h4{margin:16px 0 6px;font-size:14px;color:var(--c);border-bottom:1.5px solid var(--c);padding-bottom:2px}
+.cv p{margin:0 0 3px}.cv .role{font-weight:700;margin-top:6px}
+.cv ul{margin:0 0 4px;padding-left:20px}.cv li{margin-bottom:2px}
+.cv.sans{--f:Calibri,Arial,sans-serif}.cv.serif{--f:Georgia,"Times New Roman",serif}
+.cv.plain h4{color:#111;border-color:#111}
+.acts{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+@media print{body{background:#fff}.wrap{display:block;padding:0}.left,.acts{display:none}.cv{border:0;padding:0;max-width:none}.cv h4{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 </head>
 <body>
 <div class="wrap">
 <div class="left">
-  <h1>CV Theme Studio</h1>
-  <p class="sub">Add your details and company screenshots. The CV takes on the company’s look.</p>
+  <h1>ATS CV Builder</h1>
+  <p class="sub">Upload your current CV. It is read and rebuilt as a clean, ATS-friendly page.</p>
 
   <div class="panel">
-    <h2>1. Your details</h2>
-    <label for="name">Name</label><input type="text" id="name" value="Aarav Sharma">
-    <label for="title">Headline</label><input type="text" id="title" value="Video editor and content writer">
-    <label for="summary">Summary</label><textarea id="summary">Journalism graduate who edits and writes short-form video for young audiences on social and economic topics.</textarea>
-    <label for="skills">Skills (comma separated)</label><input type="text" id="skills" value="Video editing, Premiere Pro, Storytelling, Research, Hindi, English">
-    <label for="exp">Experience (one point per line)</label>
-    <textarea id="exp">Edited 40+ explainer videos on Indian economy for a YouTube channel
-Wrote scripts and research notes for weekly news shows
-Managed Instagram page and grew it using reels and analytics
-Interned as a reporter covering local politics</textarea>
+    <h2>1. Your existing CV</h2>
+    <div class="drop"><input type="file" id="file" accept=".pdf,.docx,.txt"><div class="note" id="st">PDF, Word (.docx) or text. The file stays in your browser.</div></div>
+    <label for="raw">Or paste your CV text</label>
+    <textarea id="raw" placeholder="Paste CV text here"></textarea>
+    <div class="row"><button id="parse" type="button">Read and rebuild</button></div>
   </div>
 
   <div class="panel">
-    <h2>2. Company look</h2>
-    <label for="company">Company name</label><input type="text" id="company" value="Acme Media">
-    <label for="shots">Screenshots of website and social media</label>
-    <div class="drop"><input type="file" id="shots" accept="image/*" multiple></div>
-    <div class="sw">
-      <label>Main<input type="color" id="cp" value="#0b5cab"></label>
-      <label>Accent<input type="color" id="ca" value="#f2a900"></label>
-      <label>Soft<input type="color" id="cs" value="#eef4fb"></label>
-      <label>Text<input type="color" id="ck" value="#10243a"></label>
+    <h2>2. Check and fix what was read</h2>
+    <div class="two"><div><label for="name">Name</label><input type="text" id="name"></div><div><label for="headline">Headline</label><input type="text" id="headline"></div></div>
+    <div class="two"><div><label for="email">Email</label><input type="text" id="email"></div><div><label for="phone">Phone</label><input type="text" id="phone"></div></div>
+    <label for="links">Links (LinkedIn, GitHub, city)</label><input type="text" id="links">
+    <label for="summary">Summary</label><textarea id="summary"></textarea>
+    <label for="skills">Skills (comma separated)</label><textarea id="skills"></textarea>
+    <label for="experience">Experience (start points with •)</label><textarea id="experience" style="min-height:130px"></textarea>
+    <label for="education">Education</label><textarea id="education"></textarea>
+    <label for="projects">Projects</label><textarea id="projects"></textarea>
+    <label for="other">Certifications, languages, awards</label><textarea id="other"></textarea>
+  </div>
+
+  <div class="panel">
+    <h2>3. Style</h2>
+    <div class="two">
+      <div><label for="tpl">Template</label><select id="tpl"><option value="">Classic (Arial)</option><option value="sans">Clean (Calibri)</option><option value="serif">Formal (Georgia)</option></select></div>
+      <div><label for="col">Heading colour</label><input type="color" id="col" value="#0b5cab" style="width:100%;height:38px"></div>
     </div>
-    <label for="font">Font style</label>
-    <select id="font"><option value="m">Modern (clean sans)</option><option value="f">Formal (serif)</option><option value="r">Friendly (rounded)</option></select>
-    <p class="note">Colors are read from your screenshots. Change any swatch by hand. Font style is your choice because it can’t be read from a picture here.</p>
+    <label for="shot">Optional: company screenshot to pick its colour</label>
+    <input type="file" id="shot" accept="image/*">
+    <p class="note">Only headings get colour. Everything else stays plain text, which is what ATS software reads best.</p>
   </div>
 
   <div class="panel">
-    <h2>3. Profile they want</h2>
-    <label for="jd">Paste the job description</label>
-    <textarea id="jd">We need a video editor with Premiere Pro and After Effects skills. Good storytelling, social media analytics and scripting. Research and communication matter.</textarea>
-    <div class="gap" id="gap" style="margin-top:10px"></div>
+    <h2>4. Target job (optional)</h2>
+    <textarea id="jd" placeholder="Paste the job description to check keyword match"></textarea>
+    <div id="kw" style="margin-top:8px;font-size:13px"></div>
   </div>
 </div>
 
 <div class="right">
-  <div class="actions"><button id="print" type="button">Print or save as PDF</button></div>
-  <div class="paper" id="paper">
-    <header><h3 id="o-name"></h3><p id="o-title"></p><span class="for" id="o-for"></span></header>
-    <div class="body">
-      <main>
-        <section><h4>Profile</h4><p id="o-sum"></p></section>
-        <section><h4>Experience</h4><ul id="o-exp"></ul></section>
-      </main>
-      <aside><section><h4>Skills</h4><div id="o-skills"></div></section></aside>
-    </div>
-  </div>
+  <div class="panel"><div class="score" id="sc">0%</div><div class="note">ATS readiness of the rebuilt CV</div><ul class="chk" id="chk"></ul></div>
+  <div class="acts"><button id="print" type="button">Print or save as PDF</button><button class="alt" id="copy" type="button">Copy as plain text</button></div>
+  <div class="cv" id="cv"></div>
 </div>
 </div>
 
 <script>
 (function(){
 var $=function(i){return document.getElementById(i)};
-var VOCAB=['video editing','premiere pro','after effects','seo','excel','python','sql','javascript','react','communication','content writing','copywriting','social media','analytics','project management','leadership','figma','photoshop','storytelling','research','public speaking','data analysis','marketing','journalism','scripting','canva','team management','reporting','editing','design'];
-var FONTS={m:"'Space Grotesk',system-ui,sans-serif",f:"'Source Serif 4',Georgia,serif",r:"'Nunito',system-ui,sans-serif"};
-var counts={};
+try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'}catch(e){}
+var VOCAB=['video editing','premiere pro','after effects','seo','excel','python','sql','javascript','react','communication','content writing','copywriting','social media','analytics','project management','leadership','figma','photoshop','storytelling','research','public speaking','data analysis','marketing','journalism','scripting','canva','team management','reporting','editing','design','sales','customer service','budgeting','negotiation'];
+var F=['name','headline','email','phone','links','summary','skills','experience','education','projects','other'];
+var H={summary:/^(professional |career )?(summary|profile|objective|about( me)?)$/i,experience:/^(work |professional |relevant )?(experience|employment( history)?|internships?)$/i,education:/^(education|academic.*|qualifications?)$/i,skills:/^((key|technical|core) )?skills$|^competenc.*/i,projects:/^(academic )?projects?$/i,other:/^(certifications?|courses|achievements|awards|languages|interests|training|volunteering)$/i};
 
-function hsl(r,g,b){r/=255;g/=255;b/=255;var mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,h=0,s=0,d=mx-mn;
- if(d){s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?((g-b)/d+(g<b?6:0)):mx===g?(b-r)/d+2:(r-g)/d+4;h*=60}return[h,s,l]}
-function hex(h,s,l){var a=s*Math.min(l,1-l);function f(n){var k=(n+h/30)%12;var c=l-a*Math.max(-1,Math.min(k-3,9-k,1));return('0'+Math.round(c*255).toString(16)).slice(-2)}return'#'+f(0)+f(8)+f(4)}
-function hexRGB(x){return[parseInt(x.substr(1,2),16),parseInt(x.substr(3,2),16),parseInt(x.substr(5,2),16)]}
-function lum(x){var c=hexRGB(x).map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
+function status(t){$('st').textContent=t}
+function readPDF(buf){return pdfjsLib.getDocument({data:buf}).promise.then(function(pdf){
+ var jobs=[];for(var p=1;p<=pdf.numPages;p++)jobs.push(pdf.getPage(p).then(function(pg){return pg.getTextContent()}).then(function(tc){
+  var rows=[],last=null,cur='';
+  tc.items.forEach(function(it){var y=Math.round(it.transform[5]);if(last!==null&&Math.abs(y-last)>3){rows.push(cur);cur=''}cur+=(cur&&!/\s$/.test(cur)?' ':'')+it.str;last=y});
+  rows.push(cur);return rows.join('\n')}));
+ return Promise.all(jobs).then(function(a){return a.join('\n')})})}
+$('file').addEventListener('change',function(e){
+ var f=e.target.files[0];if(!f)return;status('Reading '+f.name+'…');
+ var rd=new FileReader();
+ rd.onerror=function(){status('Could not open that file. Paste the text instead.')};
+ rd.onload=function(){var n=f.name.toLowerCase(),job;
+  try{
+   if(n.slice(-4)==='.pdf')job=readPDF(rd.result);
+   else if(n.slice(-5)==='.docx')job=mammoth.extractRawText({arrayBuffer:rd.result}).then(function(r){return r.value});
+   else job=Promise.resolve(new TextDecoder().decode(rd.result));
+  }catch(x){status('Could not read that file. Paste the text instead.');return}
+  job.then(function(t){if(!t.trim()){status('No text found. A scanned image PDF cannot be read, so paste the text instead.');return}
+   $('raw').value=t;status('Read '+f.name+'.');run()}).catch(function(){status('Could not read that file. Paste the text instead.')})};
+ rd.readAsArrayBuffer(f)});
 
-function scan(img){
- var c=document.createElement('canvas');c.width=c.height=56;var x=c.getContext('2d');x.drawImage(img,0,0,56,56);
- var d=x.getImageData(0,0,56,56).data;
- for(var i=0;i<d.length;i+=4){var r=d[i],g=d[i+1],b=d[i+2],q=hsl(r,g,b);
-  if(q[2]>.93||q[2]<.07||q[1]<.2)continue;
-  var k=(r>>5)+','+(g>>5)+','+(b>>5);var o=counts[k]||(counts[k]={n:0,r:0,g:0,b:0});o.n++;o.r+=r;o.g+=g;o.b+=b}
-}
-function pick(){
- var arr=Object.keys(counts).map(function(k){var o=counts[k];return{n:o.n,c:hsl(o.r/o.n,o.g/o.n,o.b/o.n)}}).sort(function(a,b){return b.n-a.n});
- if(!arr.length)return;
- var p=arr[0].c,a=null;
- for(var i=1;i<arr.length;i++){var dh=Math.abs(arr[i].c[0]-p[0]);dh=Math.min(dh,360-dh);if(dh>40){a=arr[i].c;break}}
- if(!a)a=[(p[0]+30)%360,Math.min(1,p[1]+.1),Math.min(.6,Math.max(.45,p[2]))];
- var pl=Math.min(p[2],.45);
- $('cp').value=hex(p[0],Math.max(p[1],.4),pl);
- $('ca').value=hex(a[0],Math.max(a[1],.5),Math.min(Math.max(a[2],.45),.6));
- $('cs').value=hex(p[0],.5,.96);
- $('ck').value=hex(p[0],.45,.14);
-}
-$('shots').addEventListener('change',function(e){
- counts={};var files=Array.prototype.slice.call(e.target.files),left=files.length;
- if(!left){return}
- files.forEach(function(f){var u=URL.createObjectURL(f),im=new Image();
-  im.onload=function(){scan(im);URL.revokeObjectURL(u);if(!--left){pick();render()}};
-  im.onerror=function(){if(!--left){pick();render()}};im.src=u});
-});
+function parse(t){
+ var L=t.split(/\r?\n/).map(function(s){return s.replace(/\s+/g,' ').trim()}).filter(Boolean);
+ var S={head:[],summary:[],experience:[],education:[],skills:[],projects:[],other:[]},cur='head';
+ L.forEach(function(l){var h=l.replace(/[:\-–—_|]+$/,'').trim(),hit=null;
+  if(h.length<34)for(var k in H)if(H[k].test(h)){hit=k;break}
+  if(hit){cur=hit;if(hit==='other')S.other.push(h);return}
+  S[cur].push(l)});
+ var hd=S.head.join(' | ');
+ var em=(hd.match(/[\w.+-]+@[\w-]+\.[\w.-]+/)||[''])[0];
+ var ph=(hd.match(/\+?\d[\d\s\-()]{8,}\d/)||[''])[0].trim();
+ var lk=(hd.match(/(linkedin\.com|github\.com|behance\.net)\/[^\s|,]+/gi)||[]).join(' | ');
+ var name=S.head[0]||'';
+ var hl=(S.head[1]&&S.head[1].indexOf('@')<0&&!/\d{5,}/.test(S.head[1])&&S.head[1].length<80)?S.head[1]:'';
+ var sk=S.skills.join(', ').replace(/[•●▪·|;]/g,',').replace(/\s*,\s*(,\s*)*/g,', ').replace(/^,\s*|,\s*$/g,'');
+ var bl=function(a){return a.map(function(x){return x.replace(/^[•●▪◦\-–*]\s*/,'• ').replace(/^(?!•)/,'')}).join('\n')};
+ return{name:name,headline:hl,email:em,phone:ph,links:lk,summary:S.summary.join(' '),skills:sk,experience:bl(S.experience),education:S.education.join('\n'),projects:bl(S.projects),other:S.other.join('\n')}}
+function run(){var d=parse($('raw').value);F.forEach(function(k){$(k).value=d[k]});render()}
+$('parse').addEventListener('click',run);
 
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function block(t){var out='',open=false;
+ t.split('\n').map(function(s){return s.trim()}).filter(Boolean).forEach(function(l){
+  if(/^[•●▪◦\-–*]/.test(l)){if(!open){out+='<ul>';open=true}out+='<li>'+esc(l.replace(/^[•●▪◦\-–*]\s*/,''))+'</li>'}
+  else{if(open){out+='</ul>';open=false}out+='<p class="role">'+esc(l)+'</p>'}});
+ return out+(open?'</ul>':'')}
+function sec(title,html){return html?'<h4>'+title+'</h4>'+html:''}
+function plainText(v){var o=[v.name,v.headline,[v.email,v.phone,v.links].filter(Boolean).join(' | ')].filter(Boolean).join('\n');
+ [['SUMMARY',v.summary],['SKILLS',v.skills],['EXPERIENCE',v.experience],['EDUCATION',v.education],['PROJECTS',v.projects],['CERTIFICATIONS AND OTHER',v.other]].forEach(function(p){if(p[1].trim())o+='\n\n'+p[0]+'\n'+p[1]});return o}
+function val(){var v={};F.forEach(function(k){v[k]=$(k).value});return v}
+
 function render(){
- var p=$('paper').style,cp=$('cp').value;
- p.setProperty('--p',cp);p.setProperty('--a',$('ca').value);p.setProperty('--s',$('cs').value);p.setProperty('--k',$('ck').value);
- p.setProperty('--on',lum(cp)>.45?$('ck').value:'#ffffff');
- p.setProperty('--f',FONTS[$('font').value]);
- var jd=$('jd').value.toLowerCase();
- var skills=$('skills').value.split(',').map(function(s){return s.trim()}).filter(Boolean);
- var wanted=VOCAB.filter(function(v){return jd.indexOf(v)>-1});
- skills.forEach(function(s){if(jd.indexOf(s.toLowerCase())>-1&&wanted.indexOf(s.toLowerCase())<0)wanted.push(s.toLowerCase())});
- var isM=function(s){return wanted.indexOf(s.toLowerCase())>-1};
- var sorted=skills.filter(isM).concat(skills.filter(function(s){return!isM(s)}));
- var exp=$('exp').value.split('\n').map(function(s){return s.trim()}).filter(Boolean);
- var score=function(l){l=l.toLowerCase();return wanted.filter(function(w){return l.indexOf(w)>-1||l.indexOf(w.split(' ')[0])>-1}).length};
- exp=exp.map(function(l,i){return{l:l,s:score(l),i:i}}).sort(function(a,b){return b.s-a.s||a.i-b.i});
- $('o-name').textContent=$('name').value;
- $('o-title').textContent=$('title').value;
- var co=$('company').value.trim();$('o-for').textContent=co?'Application for '+co:'';$('o-for').style.display=co?'inline-block':'none';
- $('o-sum').textContent=$('summary').value;
- $('o-exp').innerHTML=exp.map(function(e){return'<li>'+esc(e.l)+'</li>'}).join('');
- $('o-skills').innerHTML=sorted.map(function(s){return'<span class="chip'+(isM(s)?' m':'')+'">'+esc(s)+'</span>'}).join('');
- var all=(skills.join(' ')+' '+exp.map(function(e){return e.l}).join(' ')+' '+$('summary').value).toLowerCase();
- var gaps=wanted.filter(function(w){return all.indexOf(w)<0});
- var have=wanted.filter(function(w){return all.indexOf(w)>-1});
- $('gap').innerHTML=wanted.length?
-  '<b>Matches ('+have.length+')</b>'+(have.map(function(t){return'<span class="tag">'+esc(t)+'</span>'}).join('')||'None yet')+
-  '<b style="margin-top:8px">Missing from your CV ('+gaps.length+')</b>'+(gaps.map(function(t){return'<span class="tag">'+esc(t)+'</span>'}).join('')||'None')+
-  '<div class="note">Add a missing skill only if you really have it, or plan to learn it with a course or small project. Matching skills are shown first and filled in on the CV.</div>'
-  :'Paste a job description to see which skills match.';
-}
-['name','title','summary','skills','exp','company','jd','cp','ca','cs','ck','font'].forEach(function(i){$(i).addEventListener('input',render)});
+ var v=val(),cv=$('cv');
+ cv.className='cv '+$('tpl').value;cv.style.setProperty('--c',$('col').value);
+ var contact=[v.email,v.phone,v.links].filter(Boolean).map(esc).join(' | ');
+ var skills=v.skills.split(',').map(function(s){return s.trim()}).filter(Boolean);
+ cv.innerHTML=(v.name?'<h3>'+esc(v.name)+'</h3>':'<h3 style="color:#888">Your name</h3>')+(v.headline?'<div class="hl">'+esc(v.headline)+'</div>':'')+(contact?'<div class="ct">'+contact+'</div>':'')+
+  sec('Summary',v.summary?'<p>'+esc(v.summary)+'</p>':'')+sec('Skills',skills.length?'<p>'+skills.map(esc).join(', ')+'</p>':'')+
+  sec('Experience',block(v.experience))+sec('Education',block(v.education))+sec('Projects',block(v.projects))+sec('Certifications and Other',block(v.other));
+ var txt=plainText(v),words=txt.split(/\s+/).filter(Boolean).length,sw=v.summary.split(/\s+/).filter(Boolean).length;
+ var bullets=(v.experience.match(/^•/gm)||[]).length;
+ var jd=$('jd').value.toLowerCase(),low=txt.toLowerCase();
+ var want=VOCAB.filter(function(w){return jd.indexOf(w)>-1});skills.forEach(function(s){var q=s.toLowerCase();if(jd.indexOf(q)>-1&&want.indexOf(q)<0)want.push(q)});
+ var have=want.filter(function(w){return low.indexOf(w)>-1}),miss=want.filter(function(w){return low.indexOf(w)<0});
+ var checks=[['Email found',!!v.email],['Phone number found',!!v.phone],['Experience section found',!!v.experience.trim()],['Education section found',!!v.education.trim()],['At least 5 skills listed',skills.length>=5],['Summary of 20 to 80 words',sw>=20&&sw<=80],['At least 3 bullet points in experience',bullets>=3],['Length between 300 and 900 words',words>=300&&words<=900]];
+ if(want.length)checks.push(['Matches 60% or more of job keywords',have.length/want.length>=.6]);
+ var ok=checks.filter(function(c){return c[1]}).length;
+ $('sc').textContent=Math.round(ok/checks.length*100)+'%';
+ $('chk').innerHTML=checks.map(function(c){return'<li class="'+(c[1]?'y':'n')+'">'+(c[1]?'✓ ':'✗ ')+c[0]+'</li>'}).join('');
+ $('kw').innerHTML=want.length?'<b>In your CV:</b> '+(have.map(function(t){return'<span class="tag">'+esc(t)+'</span>'}).join('')||'none')+'<br><b>Missing:</b> '+(miss.map(function(t){return'<span class="tag">'+esc(t)+'</span>'}).join('')||'none')+'<div class="note">Add a missing keyword only if it is true for you.</div>':''}
+F.concat(['tpl','col','jd']).forEach(function(i){$(i).addEventListener('input',render)});
 $('print').addEventListener('click',function(){try{window.print()}catch(e){}});
+$('copy').addEventListener('click',function(){var b=$('copy');try{navigator.clipboard.writeText(plainText(val())).then(function(){b.textContent='Copied'},function(){b.textContent='Copy blocked'})}catch(e){b.textContent='Copy blocked'}setTimeout(function(){b.textContent='Copy as plain text'},1800)});
+
+$('shot').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;var u=URL.createObjectURL(f),im=new Image();
+ im.onload=function(){var c=document.createElement('canvas');c.width=c.height=48;var x=c.getContext('2d');x.drawImage(im,0,0,48,48);var d=x.getImageData(0,0,48,48).data,m={};
+  for(var i=0;i<d.length;i+=4){var r=d[i],g=d[i+1],b=d[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b);if(mx-mn<40||mx>235||mx<40)continue;var k=(r>>5)+','+(g>>5)+','+(b>>5),o=m[k]||(m[k]={n:0,r:0,g:0,b:0});o.n++;o.r+=r;o.g+=g;o.b+=b}
+  var best=null;for(var k2 in m)if(!best||m[k2].n>best.n)best=m[k2];
+  if(best){var h=function(n){return('0'+Math.round(n/best.n).toString(16)).slice(-2)};
+   var r2=best.r/best.n,g2=best.g/best.n,b2=best.b/best.n,s=r2*.299+g2*.587+b2*.114,f2=s>140?140/s:1;
+   var H2=function(n){return('0'+Math.round(n*f2).toString(16)).slice(-2)};$('col').value='#'+H2(r2)+H2(g2)+H2(b2);render()}
+  URL.revokeObjectURL(u)};im.src=u});
 render();
 })();
 </script>
